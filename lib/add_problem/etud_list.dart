@@ -1,3 +1,5 @@
+import 'package:epsapp/add_problem/NewProblem.dart';
+import 'package:epsapp/add_problem/ProblemList.dart';
 import 'package:epsapp/src/accueil.dart';
 
 import 'package:flutter/material.dart';
@@ -40,12 +42,36 @@ class _etud_listState extends State<etud_list> {
                         },
                       ),
                 ),
-            RaisedButton(onPressed: ()=> Navigator.pushReplacement(
+            RaisedButton(onPressed: (){
+              Navigator.pop(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ProblemList()));
+    Navigator.pop(
     context,
     MaterialPageRoute(
     builder: (context) =>
-    accueil(index: 1,))),
-            child:Text("envoyer"))  ],
+    new_problm()));
+
+    Navigator.pop(
+    context,
+    MaterialPageRoute(
+    builder: (context) =>
+    accueil(index: 0,)));
+
+              Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+    builder: (context) =>
+    accueil(index: 1,)));
+
+
+            },
+
+            child:Text("envoyer"),
+    )
+                , ],
             ),
       
             );
