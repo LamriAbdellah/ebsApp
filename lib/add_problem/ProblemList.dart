@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'NewProblem.dart';
+import 'etud_list.dart';
 
 class ProblemList extends StatefulWidget {
   final List<Problem> pList;
@@ -14,28 +15,47 @@ class ProblemList extends StatefulWidget {
 class ProblemListState extends State<ProblemList> {
   @override
   Widget build(BuildContext context) {
-    return            ListView.builder(
-                itemCount: widget.pList.length,
-                itemBuilder: (context, index) {
-                  return new Dismissible(
-                      onDismissed: (direction) {
-                        widget.pList.remove(widget.pList[index]);
-                      },
-                      background: Container(
-                        color: Colors.red,
-                      ),
-                      key: Key(widget.pList[index].toString()),
-                      child: Card(
-                        elevation: 8.0,
-                        margin: new EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 6.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Color.fromRGBO(64, 75, 96, .9)),
-                          child: tile(widget.pList[index]),
-                        ),
-                      ));
-                });
+    return         Scaffold(
+      appBar: AppBar(title:Text("eps")),
+      body:
+          Column(
+            children: <Widget>[
+              Expanded(
+                child: ListView.builder(
+                          itemCount: widget.pList.length,
+                          itemBuilder: (context, index) {
+                            return new Dismissible(
+                                onDismissed: (direction) {
+                                  widget.pList.remove(widget.pList[index]);
+                                },
+                                background: Container(
+                                  color: Colors.red,
+                                ),
+                                key: Key(widget.pList[index].toString()),
+                                child: Card(
+                                  elevation: 8.0,
+                                  margin: new EdgeInsets.symmetric(
+                                      horizontal: 10.0, vertical: 6.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Color.fromRGBO(64, 75, 96, .9)),
+                                    child: tile(widget.pList[index]),
+                                  ),
+                                ));
+                          }),
+              ),
+              RaisedButton(onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          etud_list())),
+                child: Text("select"),
+
+              ), ],
+          ),
+
+
+    );
 
   }
 }

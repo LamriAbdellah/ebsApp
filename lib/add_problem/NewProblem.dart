@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'ProblemList.dart';
 
+
 class new_problm extends StatefulWidget {
   @override
   new_problmState createState() => new_problmState();
@@ -124,32 +125,38 @@ class new_problmState extends State<new_problm> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: MaterialButton(
-                  padding: EdgeInsets.all(5.0),
-                  color: Colors.indigo,
-                  minWidth: 170,
-                  height: 20,
-                  elevation: 6,
-                  shape: StadiumBorder(),
-                  child: Text(
-                    "Submit",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+              child: Column(
+                children: <Widget>[
+                  Center(
+                    child: MaterialButton(
+                      padding: EdgeInsets.all(5.0),
+                      color: Colors.indigo,
+                      minWidth: 170,
+                      height: 20,
+                      elevation: 6,
+                      shape: StadiumBorder(),
+                      child: Text(
+                        "Submit",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: () {
+                        Problem problem = new Problem(selecteditem, selectedlevel,
+                            problemDescription.text, problemDetails.text);
+                        problems.add(problem);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ProblemList(pList: problems)));
+                      },
                     ),
                   ),
-                  onPressed: () {
-                    Problem problem = new Problem(selecteditem, selectedlevel,
-                        problemDescription.text, problemDetails.text);
-                    problems.add(problem);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                ProblemList(pList: problems)));
-                  },
-                ),
+
+
+                ],
               ),
             )
           ]),

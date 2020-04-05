@@ -1,12 +1,13 @@
+import 'package:epsapp/src/accueil.dart';
 import 'package:flutter/material.dart';
-import 'src/chatpage.dart';
+
 
 void main() => runApp( app());
     class app extends StatelessWidget {
       @override
       Widget build(BuildContext context) {
         return MaterialApp(
-        home: chatpage(),
+        home: accueil(index: 0,),
         );
       }
     }
