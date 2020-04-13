@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "337029068577",
+    "firebase_url": "https://eps-app-58971.firebaseio.com",
+    "project_id": "eps-app-58971",
+    "storage_bucket": "eps-app-58971.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:337029068577:android:2f45af87fa2d06aaa77060",
+        "android_client_info": {
+          "package_name": "com.esi.epsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "337029068577-eiqisoovup3gvrt40e07hbk0vi71atsi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRBHiOsQPVOOrcisgftJD1yAQ3G1fP2BM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "337029068577-eiqisoovup3gvrt40e07hbk0vi71atsi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

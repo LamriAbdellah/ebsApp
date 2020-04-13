@@ -1,11 +1,16 @@
+import 'package:epsapp/accountSettings/accountSettings.dart';
 import 'package:epsapp/add_problem/NewProblem.dart';
-import 'package:epsapp/src/recupage.dart';
-import 'package:epsapp/src/sendpage.dart';
+import 'package:epsapp/home/recupage.dart';
+import 'package:epsapp/home/sendpage.dart';
+import 'package:epsapp/services/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:epsapp/src/chatpage.dart';
+import 'package:epsapp/home/chatpage.dart';
+
+import '../loading.dart';
 
 class accueil extends StatefulWidget {
   final int index;
+
 
   const accueil({Key key, this.index}) : super(key: key);
   @override
@@ -13,6 +18,7 @@ class accueil extends StatefulWidget {
 }
 
 class _accueilState extends State<accueil> {
+  final  AuthService _auth = AuthService();
   void initState(){
     super.initState();
     _currentindex=widget.index;
@@ -26,6 +32,21 @@ class _accueilState extends State<accueil> {
     return  Scaffold(
       appBar: AppBar(
         title: Text('eps '),
+        actions: <Widget>[IconButton(icon: Icon(Icons.person), onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return accountSettings();
+          }));
+
+        }),
+          IconButton(onPressed: () async {
+
+              dynamic result = await _auth.SingOut();
+              if (result==null){Loading();}
+            },
+              icon: Icon(Icons.power_settings_new),
+
+              color: Colors.redAccent,),
+          ],
 
       ),
       body: tabs[_currentindex],

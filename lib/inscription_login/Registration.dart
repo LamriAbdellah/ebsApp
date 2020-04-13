@@ -1,34 +1,56 @@
-
-import 'package:epsapp/ecran_principal.dart';
-import 'package:epsapp/src/accueil.dart';
+import 'package:epsapp/loading.dart';
+import 'package:epsapp/services/auth.dart';
 import 'package:flutter/material.dart';
 
-class inscription extends StatelessWidget {
+class inscription extends StatefulWidget {
+  //fonction chargment sert au transfert entre les deux page connecter et inscrire
+  final Function changement;
+  const inscription({Key key, this.changement}) : super(key: key);
+  @override
+  _inscriptionState createState() => _inscriptionState();
+}
 
+class _inscriptionState extends State<inscription> {
+  //liste aide affichage zone niveau
+  var niveaux = {"1", "2", "3", "4", "5"};
+  String selectedlevel = "1";
 
+  //confirmation de remplisage des zones
+  final _formKey=GlobalKey<FormState>();
+  bool loading=false ;
+  //variable des zones
+  String pseudo="";
+  String email="";
+  String password="";
+  String repassword="";
+  String eroor="";
 
-
-  // This widget is the root of your application.
+  //variable de firebaseauthen
+  final  AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    int level =int.parse(selectedlevel);
+    return loading ? Loading() : Scaffold(
       appBar: AppBar(
         title: Text('Registration'),
+        actions: <Widget>[FlatButton.icon(onPressed: (){widget.changement();}, icon: Icon(Icons.person), label:Text("se connecter"))],
 
       ),
       body: Container(
 
         child: Form(
+          key: _formKey,
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
                 SizedBox(height: 20.0),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 18.0,vertical: 10.0),
-                  child: TextField(
+                  child: TextFormField(
+                    validator: (val)=> val.isEmpty ? 'enter a name' :null,
                     decoration: InputDecoration(
                       prefixIcon:Icon(Icons.supervised_user_circle),
-                      labelText: ('pseudo'),
+                      labelText: ('Name'),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.blue),
                       ),
@@ -36,36 +58,42 @@ class inscription extends StatelessWidget {
 
                     ),
 
-                    onChanged: (val) {
+                    onChanged: (val) {  setState(()=>pseudo=val);
 
                     },
                   ),
 
                 ),
-
+                SizedBox(height: 20.0),
+Row(
+ mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  children: <Widget>[
+  Text("level"),
+  DropdownButton<String>(
+    icon: Icon(Icons.arrow_drop_down),
+    iconSize: 40,
+    underline: SizedBox(),
+    items: niveaux.map((String dropDownStringItem) {
+      return DropdownMenuItem<String>(
+        value: dropDownStringItem,
+        child: Text(dropDownStringItem),
+      );
+    }).toList(),
+    onChanged: (String selectedlvl) {
+      setState(() {
+        this.selectedlevel = selectedlvl;
+      });
+      //send to backend to treat later.
+    },
+    value: selectedlevel,
+  ),
+],),
                 SizedBox(height: 20.0),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
                   child: TextFormField(
-                    onChanged: (val) {
-                    },
-                    decoration: InputDecoration(
-
-                      prefixIcon:Icon(Icons.school),
-                      labelText:'specialite',
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      border: OutlineInputBorder(),
-                    ),
-
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
-                  child: TextFormField(
-                    onChanged: (val) {
+                      validator: (val)=> val.isEmpty ? 'enter an email' :null,
+                    onChanged: (val) {  setState(()=>email=val);
                     },
                     decoration: InputDecoration(
 
@@ -83,7 +111,9 @@ class inscription extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
                   child: TextFormField(
+                    validator: (val)=> val.isEmpty ? 'enter a password' :null,
                     onChanged: (val) {
+                      setState(()=>password=val);
                     },
                     decoration: InputDecoration(
 
@@ -94,14 +124,22 @@ class inscription extends StatelessWidget {
                       ),
                       border: OutlineInputBorder(),
                     ),
-
+                    obscureText:true,
                   ),
                 ),
                 SizedBox(height: 20.0),
                 Padding(
+
                   padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
                   child: TextFormField(
-                    onChanged: (val) {
+                    validator: (val){  if(val.isEmpty)
+    return 'repeat the  password';
+    if(val != password)
+    return ' passwords doesnt match';
+    return null;},
+
+    onChanged: (val) {
+                      setState(()=>repassword=val);
                     },
                     decoration: InputDecoration(
 
@@ -112,27 +150,28 @@ class inscription extends StatelessWidget {
                       ),
                       border: OutlineInputBorder(),
                     ),
-
+                    obscureText:true,
                   ),
                 ),
 
                 SizedBox(height: 10.0,),
-                RaisedButton(onPressed:() {Navigator.pop(context, MaterialPageRoute(builder: (context) {
-                  return (ecran_principal());
+                RaisedButton(onPressed:() async {
+                  if (_formKey.currentState.validate()){
+                    setState(() => loading = true);
+              dynamic result =await _auth.register(email,password,pseudo,level);
+              //problem de connection ou email forme incorrect
 
-                }));
-
-                Navigator.pop(context, MaterialPageRoute(builder: (context) {
-                  return (ecran_principal());
-
-                }));
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-                  return (accueil(index: 0,));
-                }));},
+                setState(() { loading = false;
+                eroor=result;
+                });
+                };
+                },
                   padding:EdgeInsets.symmetric(horizontal: 16.0,vertical: 8.0),
                   color:Colors.blue,
-                  child: Text('sign in'),
-                )
+                  child: Text('register'),
+                ),
+                SizedBox(height: 20.0,),
+                Text(eroor, style: TextStyle(color: Colors.red),),
               ],
             ),
           ),

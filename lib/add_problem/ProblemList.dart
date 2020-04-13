@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'NewProblem.dart';
-import 'etud_list.dart';
+import 'studentsList.dart';
 
 class ProblemList extends StatefulWidget {
   final List<Problem> pList;
-
-  const ProblemList({this.pList, Plist});
+final int level;
+  const ProblemList({this.pList, Plist, this.level});
 
   @override
   ProblemListState createState() => ProblemListState();
@@ -48,7 +48,7 @@ class ProblemListState extends State<ProblemList> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          etud_list())),
+                          etud_list(level: widget.level,))),
                 child: Text("select"),
 
               ), ],

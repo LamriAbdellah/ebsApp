@@ -24,6 +24,7 @@ class new_problmState extends State<new_problm> {
   /////
   @override
   Widget build(BuildContext context) {
+    int level = int.parse(selectedlevel);
     return  Scaffold(
         appBar: AppBar(
           leading: GestureDetector(
@@ -150,7 +151,7 @@ class new_problmState extends State<new_problm> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    ProblemList(pList: problems)));
+                                    ProblemList(pList: problems,level: level,)));
                       },
                     ),
                   ),
