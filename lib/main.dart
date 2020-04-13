@@ -13,7 +13,7 @@ void main() => runApp( app());
         return StreamProvider<User>.value(
           value:AuthService().user ,
           child: MaterialApp(
-          home: Wrapper(),
+          home: Wrapper(index: 0,),
           ),
         );
       }

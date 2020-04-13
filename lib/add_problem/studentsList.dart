@@ -5,6 +5,7 @@ import 'package:epsapp/add_problem/studentListMaker.dart';
 import 'package:epsapp/home/accueil.dart';
 import 'package:epsapp/models/studentSearch.dart';
 import 'package:epsapp/services/database.dart';
+import 'package:epsapp/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -42,22 +43,15 @@ class _etud_listState extends State<etud_list> {
       Navigator.pop(
       context,
       MaterialPageRoute(
-      builder: (context) =>
-      new_problm()));
+      builder: (context) {return null;}));
 
-      Navigator.pop(
-      context,
-      MaterialPageRoute(
-      builder: (context) =>
-      accueil(index: 0,)));
-
+   Navigator.pop( context ,MaterialPageRoute(builder: (context){return null;}));
+                Navigator.pop( context ,MaterialPageRoute(builder: (context){return null;}));
                 Navigator.pushReplacement(
       context,
       MaterialPageRoute(
       builder: (context) =>
-      accueil(index: 1,)));
-
-
+     Wrapper(index: 1,)));
               },
 
               child:Text("envoyer"),

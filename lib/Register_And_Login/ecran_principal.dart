@@ -1,5 +1,5 @@
-import 'package:epsapp/inscription_login/Registration.dart';
-import 'package:epsapp/inscription_login/connect.dart';
+import 'package:epsapp/Register_And_Login/Registration.dart';
+import 'package:epsapp/Register_And_Login/connect.dart';
 import 'package:flutter/material.dart';
 
 class ecran_principal extends StatefulWidget {
