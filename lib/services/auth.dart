@@ -56,12 +56,22 @@ class AuthService {
     }
   }
 //insciption
-Future register ( String email,String password,String pseudo,int level) async {
+Future register ( String email,String password,String pseudo,int algo,
+    int analyse,
+    int algebre,
+    int elect,
+    int mecanq,
+    int poo,) async {
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
-      await DatabaseServices(uid: user.uid).updateUserData(pseudo,level);
+      await DatabaseServices(uid: user.uid).updateUserData(pseudo,algo,
+         analyse,
+         algebre,
+         elect,
+        mecanq,
+        poo,);
       return _userfromfirebase(user);
     }
     catch (error) {

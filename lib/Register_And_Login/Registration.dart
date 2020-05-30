@@ -1,4 +1,8 @@
 import 'package:epsapp/loading.dart';
+import 'package:epsapp/models/newuser.dart';
+import 'package:epsapp/models/newuser.dart';
+import 'package:epsapp/models/newuser.dart';
+import 'package:epsapp/screens/module_level.dart';
 import 'package:epsapp/services/auth.dart';
 import 'package:flutter/material.dart';
 
@@ -6,14 +10,14 @@ class inscription extends StatefulWidget {
   //fonction chargment sert au transfert entre les deux page connecter et inscrire
   final Function changement;
   const inscription({Key key, this.changement}) : super(key: key);
+
   @override
   _inscriptionState createState() => _inscriptionState();
 }
 
 class _inscriptionState extends State<inscription> {
-  //liste aide affichage zone niveau
-  var niveaux = {"1", "2", "3", "4", "5"};
-  String selectedlevel = "1";
+
+
 
   //confirmation de remplisage des zones
   final _formKey=GlobalKey<FormState>();
@@ -29,7 +33,6 @@ class _inscriptionState extends State<inscription> {
   final  AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
-    int level =int.parse(selectedlevel);
     return loading ? Loading() : Scaffold(
       appBar: AppBar(
         title: Text('Registration'),
@@ -65,29 +68,7 @@ class _inscriptionState extends State<inscription> {
 
                 ),
                 SizedBox(height: 20.0),
-Row(
- mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  children: <Widget>[
-  Text("level"),
-  DropdownButton<String>(
-    icon: Icon(Icons.arrow_drop_down),
-    iconSize: 40,
-    underline: SizedBox(),
-    items: niveaux.map((String dropDownStringItem) {
-      return DropdownMenuItem<String>(
-        value: dropDownStringItem,
-        child: Text(dropDownStringItem),
-      );
-    }).toList(),
-    onChanged: (String selectedlvl) {
-      setState(() {
-        this.selectedlevel = selectedlvl;
-      });
-      //send to backend to treat later.
-    },
-    value: selectedlevel,
-  ),
-],),
+
                 SizedBox(height: 20.0),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
@@ -158,7 +139,7 @@ Row(
                 RaisedButton(onPressed:() async {
                   if (_formKey.currentState.validate()){
                     setState(() => loading = true);
-              dynamic result =await _auth.register(email,password,pseudo,level);
+              dynamic result =await _auth.register(email,password,pseudo,1,1,1,1,1,1);
               //problem de connection ou email forme incorrect
 
                 setState(() { loading = false;

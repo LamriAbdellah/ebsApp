@@ -55,24 +55,7 @@ class _accountState extends State<account> {
                       letterSpacing: 2.0,
                     ),
                   ),
-                  SizedBox(height: 30.0),
-                  Text(
-                    'LEVEL',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      letterSpacing: 2.0,
-                    ),
-                  ),
-                  SizedBox(height: 10.0),
-                  Text(
-                    '${user.level}',
-                    style: TextStyle(
-                      color: Colors.amberAccent[200],
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28.0,
-                      letterSpacing: 2.0,
-                    ),
-                  ),
+
                   SizedBox(height: 50.0,),
                   Center(
                     child: FlatButton.icon(onPressed: () {
@@ -83,6 +66,7 @@ class _accountState extends State<account> {
                       color: Colors.blueAccent,),
                   ),
                   SizedBox(height: 5.0,),
+
                 ],
               ),
             ),
