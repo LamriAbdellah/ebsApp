@@ -1,20 +1,16 @@
-import 'package:epsapp/home/accueil.dart';
 import 'package:epsapp/loading.dart';
 import 'package:epsapp/models/user.dart';
 import 'package:epsapp/services/database.dart';
+import 'package:epsapp/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 class ModulesLevel extends StatefulWidget {
-  final String email;
-  final String psuedo;
-  final String password;
-
-  const ModulesLevel({Key key, this.email, this.psuedo, this.password}) : super(key: key);
   @override
   _ModulesLevelState createState() => _ModulesLevelState();
 }
 
 class _ModulesLevelState extends State<ModulesLevel> {
+  bool loading=false;
   int algo=1;
   int analyse=1;
   int algebre=1;
@@ -24,7 +20,7 @@ class _ModulesLevelState extends State<ModulesLevel> {
   String pseudo;
   @override
   Widget build(BuildContext context) {
-    final user =Provider.of<User>(context);
+final user =Provider.of<User>(context);
 
 
     return StreamBuilder<UserData>(
@@ -33,7 +29,7 @@ class _ModulesLevelState extends State<ModulesLevel> {
           if (snapshot.hasData) {
             UserData user = snapshot.data;
 
-            return Scaffold(
+            return loading ? Loading(): Scaffold(
               appBar: AppBar(
                 title: Text("Account"),
 
@@ -142,13 +138,26 @@ class _ModulesLevelState extends State<ModulesLevel> {
                         SizedBox(height: 50.0,),
                         SizedBox(height: 2.0,),
                         FlatButton.icon(onPressed: () async {
+                          setState(() => loading = true);
 
                           await DatabaseServices(uid:user.uid).updateUserData(user.pseudo ?? user.pseudo, algo ?? user.algo,analyse ?? user.analyse,
                             algebre ?? user.algebre,elect ?? user.elect,mecanq ?? user.mecanq,poo ?? user.poo,);
-                           await Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-                            return accueil(index:1);
+
+                          Navigator.pop(context, MaterialPageRoute(builder: (context) {
+                            return null;
                           }));
+
+                          Navigator.pop(context, MaterialPageRoute(builder: (context) {
+                            return null;
+
+                          }));
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+                            return Wrapper(index: 0,);
+
+                          }));
+                          setState(() => loading = true);
                         },
+
                             icon: Icon(Icons.save),
                             label: Text("save new informations"),
                             color: Colors.blueAccent)

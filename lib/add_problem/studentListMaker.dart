@@ -7,9 +7,9 @@ import 'package:provider/provider.dart';
 
 
 class studentsListMaker extends StatefulWidget {
-  final int level;
+  final String module;
 
-  const studentsListMaker({Key key, this.level}) : super(key: key);
+  const studentsListMaker({Key key, this.module}) : super(key: key);
   @override
   _studentsListMakerState createState() => _studentsListMakerState();
 }
@@ -18,7 +18,6 @@ class _studentsListMakerState extends State<studentsListMaker> {
 
   @override
   Widget build(BuildContext context) {
-int level =widget.level;
     final students = Provider.of<List<student>>(context) ?? [];
 final user =Provider.of<User>(context);
       return  StreamBuilder<UserData>(
@@ -29,7 +28,7 @@ final user =Provider.of<User>(context);
                 itemCount: students.length,
 itemBuilder: (context,index)
 {
-          if ((students[index].algo>=level)&&(students[index].name!=user.pseudo)) {
+          if ((students[index].algo>=user.algo)&&(students[index].name!=user.pseudo)) {
             return Card(
               child: CheckboxListTile(
                 value: students[index].select,

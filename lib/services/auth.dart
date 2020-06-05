@@ -1,11 +1,12 @@
 import 'package:epsapp/models/user.dart';
 import 'package:epsapp/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   //make firebaseuser to our user
   User _userfromfirebase (FirebaseUser user){
-    return user != null ? User(uid:user.uid) : null;
+    return user != null ? User(user.uid) : null;
   }
   // detecter la connection
   Stream<User> get user{
@@ -13,17 +14,9 @@ class AuthService {
         //.map((FirebaseUser user) => _userfromfirebase(user));
     .map(_userfromfirebase);
   }
-//connecter sans rien
 
 
-  Future singIno() async{
 
-
-  AuthResult result = await _auth.signInAnonymously();
-  FirebaseUser user = result.user ;
-  return _userfromfirebase(user);
-
-  }
 //connecter avc email password
 
   Future singIn (String email,String password) async {
@@ -32,6 +25,7 @@ class AuthService {
           email: email, password: password);
       FirebaseUser user = result.user;
       return _userfromfirebase(user);
+
     }
     catch (error) {
       String errorMessage = "";
@@ -73,7 +67,9 @@ Future register ( String email,String password,String pseudo,int algo,
         mecanq,
         poo,);
       return _userfromfirebase(user);
+
     }
+
     catch (error) {
       String errorMessage ="";
 
@@ -99,6 +95,7 @@ Future register ( String email,String password,String pseudo,int algo,
 
     }
     
+// get current user
 
 //deconnecter
 Future SingOut() async {

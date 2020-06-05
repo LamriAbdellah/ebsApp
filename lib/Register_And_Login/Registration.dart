@@ -1,7 +1,5 @@
 import 'package:epsapp/loading.dart';
-import 'package:epsapp/models/newuser.dart';
-import 'package:epsapp/models/newuser.dart';
-import 'package:epsapp/models/newuser.dart';
+import 'package:epsapp/screens/guide.dart';
 import 'package:epsapp/screens/module_level.dart';
 import 'package:epsapp/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -138,11 +136,11 @@ class _inscriptionState extends State<inscription> {
                 SizedBox(height: 10.0,),
                 RaisedButton(onPressed:() async {
                   if (_formKey.currentState.validate()){
+
                     setState(() => loading = true);
               dynamic result =await _auth.register(email,password,pseudo,1,1,1,1,1,1);
               //problem de connection ou email forme incorrect
-
-                setState(() { loading = false;
+                   setState(() { loading = false;
                 eroor=result;
                 });
                 };

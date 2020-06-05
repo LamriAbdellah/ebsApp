@@ -5,8 +5,8 @@ import 'studentsList.dart';
 
 class ProblemList extends StatefulWidget {
   final List<Problem> pList;
-final int level;
-  const ProblemList({this.pList, Plist, this.level});
+final String module;
+  const ProblemList({this.pList, Plist, this.module});
 
   @override
   ProblemListState createState() => ProblemListState();
@@ -48,7 +48,7 @@ class ProblemListState extends State<ProblemList> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          etud_list(level: widget.level,))),
+                          etud_list(module: widget.module,))),
                 child: Text("select"),
 
               ), ],

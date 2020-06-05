@@ -151,7 +151,7 @@ class new_problmState extends State<new_problm> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    ProblemList(pList: problems,level: level,)));
+                                    ProblemList(pList: problems,module: selecteditem,)));
                       },
                     ),
                   ),

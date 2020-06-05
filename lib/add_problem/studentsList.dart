@@ -10,9 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class etud_list extends StatefulWidget {
-  final int level;
+  final String module;
 
-  const etud_list({Key key, this.level}) : super(key: key);
+  const etud_list({Key key, this.module}) : super(key: key);
   @override
   _etud_listState createState() => _etud_listState();
 }
@@ -32,7 +32,7 @@ class _etud_listState extends State<etud_list> {
               Column(
                 children: <Widget>[
                   Expanded(
-                    child: studentsListMaker(level: widget.level,),
+                    child: studentsListMaker(module: widget.module,),
                   ),
               RaisedButton(onPressed: (){
                 Navigator.pop(
