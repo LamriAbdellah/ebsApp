@@ -10,12 +10,10 @@ class new_problm extends StatefulWidget {
 
 
 class new_problmState extends State<new_problm> {
-  var modules = {"Algo", "Archi", "Analyse", "Algebre", "Proba"};
-  var niveaux = {"1", "2", "3", "4", "5"};
+  var modules = {"Algo", "Analyse", "Algebre", "Electronique", "Mecanique", "POO"};
 
   //Output values :
   var selecteditem = "Algo";
-  var selectedlevel = "1";
   final problemDescription = TextEditingController();
   final problemDetails = TextEditingController();
 
@@ -24,7 +22,6 @@ class new_problmState extends State<new_problm> {
   /////
   @override
   Widget build(BuildContext context) {
-    int level = int.parse(selectedlevel);
     return  Scaffold(
         appBar: AppBar(
           leading: GestureDetector(
@@ -61,33 +58,6 @@ class new_problmState extends State<new_problm> {
                   //send Selected to backend to treat later.
                 },
                 value: selecteditem,
-              ),
-            ),
-            Text("Problem level",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    height: 5,
-                    fontStyle: FontStyle.italic,
-                    fontSize: 16)),
-            Center(
-              heightFactor: 1,
-              child: DropdownButton<String>(
-                icon: Icon(Icons.arrow_drop_down),
-                iconSize: 40,
-                underline: SizedBox(),
-                items: niveaux.map((String dropDownStringItem) {
-                  return DropdownMenuItem<String>(
-                    value: dropDownStringItem,
-                    child: Text(dropDownStringItem),
-                  );
-                }).toList(),
-                onChanged: (String selectedlvl) {
-                  setState(() {
-                    this.selectedlevel = selectedlvl;
-                  });
-                  //send to backend to treat later.
-                },
-                value: selectedlevel,
               ),
             ),
             Padding(
@@ -144,8 +114,7 @@ class new_problmState extends State<new_problm> {
                         ),
                       ),
                       onPressed: () {
-                        Problem problem = new Problem(selecteditem, selectedlevel,
-                            problemDescription.text, problemDetails.text);
+                        Problem problem = new Problem(selecteditem, problemDescription.text, problemDetails.text);
                         problems.add(problem);
                         Navigator.push(
                             context,
@@ -170,12 +139,10 @@ class new_problmState extends State<new_problm> {
 class Problem {
   String desc;
   String details;
-  String lvl;
   String module;
 
-  Problem(String module, String lvl, String desc, String details) {
+  Problem(String module, String desc, String details) {
     this.module = module;
-    this.lvl = lvl;
     this.desc = desc;
     this.details = details;
   }
