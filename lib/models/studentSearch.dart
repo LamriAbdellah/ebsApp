@@ -23,5 +23,13 @@ int poo;
     this.poo=poo;
 
   }
+  dynamic getProp(String key) => <String, dynamic>{
+    'Algo' : algo,
+    'Analyse':analyse,
+    'Algebre':algebre,
+    'Electronique':elect,
+    'Mecanique':mecanq,
+    'POO':poo,
+  }[key];
 
 }

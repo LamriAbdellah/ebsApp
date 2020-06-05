@@ -23,4 +23,13 @@ class UserData{
  final int poo;
 
   UserData(this.uid, this.pseudo, this.algo,this.analyse,this.algebre,this.elect,this.mecanq,this.poo);
+ dynamic getProp(String key) => <String, dynamic>{
+  'Algo' : algo,
+  'Analyse':analyse,
+  'Algebre':algebre,
+  'Electronique':elect,
+  'Mecanique':mecanq,
+  'POO':poo,
+ }[key];
+
 }

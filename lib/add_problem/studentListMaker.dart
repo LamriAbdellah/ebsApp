@@ -28,7 +28,7 @@ final user =Provider.of<User>(context);
                 itemCount: students.length,
 itemBuilder: (context,index)
 {
-            if ((students[index].algo>=user.algo)&&(students[index].name!=user.pseudo)) {
+            if ((students[index].getProp(widget.module)>=user.getProp(widget.module))&&(students[index].name!=user.pseudo)) {
             return Card(
               child: CheckboxListTile(
                 value: students[index].select,
