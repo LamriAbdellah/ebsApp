@@ -1,16 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:epsapp/Constances/selected_module.dart';
 import 'package:epsapp/models/studentSearch.dart';
 import 'package:epsapp/models/user.dart';
-
-
-
+import 'package:epsapp/Constances/constants.dart';
 
 class DatabaseServices{
+
   final String uid;
   DatabaseServices({this.uid});
-  final CollectionReference students = Firestore.instance.collection('students');
-  Future updateUserData (String pseudo,int algo,int analyse,int algebre,int elect,int mecanq,int poo) async{
+  final CollectionReference students = Firestore.instance.collection("students");
+  //avoir la liste des etudients qui ont un niv > sup que lutilisateur
+  final Query studentsSearch =  Firestore.instance.collection("students").where(selectedModule.selected_module.toLowerCase(),isGreaterThan:Constants.Module_level);
+  Future updateUserData (String pseudo,String email,int algo,int analyse,int algebre,int elect,int mecanq,int poo) async{
 return await students.document(uid).setData({
+  'uid':uid,
   'pseudo' : pseudo,
 'algo':algo,
   'analyse':analyse,
@@ -18,6 +21,7 @@ return await students.document(uid).setData({
   'elect':elect,
   'mecanq':mecanq,
   'poo':poo,
+  'email':email,
 }
 );
   }
@@ -34,13 +38,13 @@ return await students.document(uid).setData({
   UserData _userDatafromSnapchat(DocumentSnapshot snapshot){
     return UserData(
       uid,snapshot.data['pseudo'],snapshot.data['algo'],snapshot.data['analyse'],snapshot.data['algebre'],snapshot.data['elect'],
-        snapshot.data['mecanq'],snapshot.data['poo']
+        snapshot.data['mecanq'],snapshot.data['poo'],snapshot.data['email']
     );
 
   }
 //stream for getting studients
 Stream<List<student>> get Students {
-    return students.snapshots()
+    return studentsSearch.snapshots()
         .map(_studentsfromdatabase);
 }
 
@@ -51,4 +55,42 @@ Stream<UserData> get user {
         .map(_userDatafromSnapchat);
 }
 
+}
+class DatabaseChatRoom{
+  //cree la collection des chatroom et ajouter un chat room chaque fois
+  createChatRoom(String ChatRoomId,ChatRoomMap){
+Firestore.instance.collection("chatrooms").document(ChatRoomId).setData(ChatRoomMap).catchError((e){
+  print(e.toString());
+});
+}
+addChatRoomMessages(String ChatRoomId,MessageMap) {
+    Firestore.instance.collection("chatrooms").document(ChatRoomId).collection("chats").add(MessageMap);
+
+}
+  getChatRoomMessages(String ChatRoomId) async {
+  return await Firestore.instance.collection("chatrooms").document(ChatRoomId).collection("chats").orderBy("time",descending: false)
+ .snapshots();
+
+  }
+  getChatRooms(String UserName) async{
+    return await Firestore.instance.collection("chatrooms").where("users",arrayContains: UserName)
+    .snapshots();
+  }
+
+}
+class DatabaseFonctions {
+// fonction utiliser pour recuprer le psuedo de lutilisateur par son email
+  getUserNameByEmail (String email) async  {
+    return await  Firestore.instance.collection("students").where("email",isEqualTo: email)
+        .getDocuments();
+  }
+  getUserNameByID (String id) async{
+  return  await Firestore.instance.collection("students").where("uid",isEqualTo: id)
+  .getDocuments();
+  }
+  // fonction utiliser pour recuprer le psuedo de lutilisateur par son email
+  getUserByName (String name) async  {
+    return await  Firestore.instance.collection("students").where("pseudo",isEqualTo: name)
+        .getDocuments();
+  }
 }

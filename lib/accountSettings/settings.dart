@@ -73,6 +73,7 @@ class _settingsState extends State<settings> {
                       Text("algorithme"),
                       Slider(
                         value: (algo ?? 1).toDouble(),
+                        label: "$algo",
                         inactiveColor: Colors.amber[algo?? 100],
                         activeColor:Colors.amber[algo*100 ?? 100],
                         min: 1.0,
@@ -88,6 +89,7 @@ class _settingsState extends State<settings> {
                       Text("analyse"),
                       Slider(
                         value: (analyse ?? 1).toDouble(),
+                        label: "$analyse",
                         inactiveColor: Colors.amber[analyse?? 100],
                         activeColor:Colors.amber[analyse*100 ?? 100],
                         min: 1.0,
@@ -103,6 +105,7 @@ class _settingsState extends State<settings> {
                     children: <Widget>[
                       Text("algebre"),
                       Slider(
+                        label: "$algebre",
                         value: ( algebre ?? 1).toDouble(),
                         inactiveColor: Colors.amber[algebre?? 100],
                         activeColor:Colors.amber[algebre*100 ?? 100],
@@ -118,6 +121,7 @@ class _settingsState extends State<settings> {
                     children: <Widget>[
                       Text("electronique"),
                       Slider(
+                        label: "$elect",
                         value: (elect ?? 1).toDouble(),
                         inactiveColor: Colors.amber[elect?? 100],
                         activeColor:Colors.amber[elect*100 ?? 100],
@@ -133,6 +137,7 @@ class _settingsState extends State<settings> {
                     children: <Widget>[
                       Text("mecanqiue"),
                       Slider(
+                        label: "$mecanq",
                         value: (mecanq ?? 1).toDouble(),
                         inactiveColor: Colors.amber[mecanq?? 100],
                         activeColor:Colors.amber[mecanq*100 ?? 100],
@@ -148,6 +153,7 @@ class _settingsState extends State<settings> {
                     children: <Widget>[
                       Text("poo"),
                       Slider(
+                        label: "$poo",
                         value: (poo ?? 1).toDouble(),
                         inactiveColor: Colors.amber[poo?? 100],
                         activeColor:Colors.amber[poo*100 ?? 100],
@@ -165,7 +171,7 @@ SizedBox(height: 50.0,),
                   SizedBox(height: 2.0,),
                   FlatButton.icon(onPressed: () async {
 
-                      await DatabaseServices(uid:user.uid).updateUserData(pseudo ?? user.pseudo, algo ?? user.algo,analyse ?? user.analyse,
+                      await DatabaseServices(uid:user.uid).updateUserData(pseudo ?? user.pseudo,user.email, algo ?? user.algo,analyse ?? user.analyse,
                         algebre ?? user.algebre,elect ?? user.elect,mecanq ?? user.mecanq,poo ?? user.poo,);
 
                     widget.changement();

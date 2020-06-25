@@ -60,7 +60,7 @@ Future register ( String email,String password,String pseudo,int algo,
       AuthResult result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
-      await DatabaseServices(uid: user.uid).updateUserData(pseudo,algo,
+      await DatabaseServices(uid: user.uid).updateUserData(pseudo,email,algo,
          analyse,
          algebre,
          elect,

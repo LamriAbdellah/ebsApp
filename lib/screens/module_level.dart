@@ -140,7 +140,7 @@ final user =Provider.of<User>(context);
                         FlatButton.icon(onPressed: () async {
                           setState(() => loading = true);
 
-                          await DatabaseServices(uid:user.uid).updateUserData(user.pseudo ?? user.pseudo, algo ?? user.algo,analyse ?? user.analyse,
+                          await DatabaseServices(uid:user.uid).updateUserData(user.pseudo ?? user.pseudo,user.email, algo ?? user.algo,analyse ?? user.analyse,
                             algebre ?? user.algebre,elect ?? user.elect,mecanq ?? user.mecanq,poo ?? user.poo,);
 
                           Navigator.pop(context, MaterialPageRoute(builder: (context) {

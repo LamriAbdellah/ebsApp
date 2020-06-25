@@ -1,6 +1,9 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:epsapp/loading.dart';
 import 'package:epsapp/services/auth.dart';
+import 'package:epsapp/services/database.dart';
+import 'package:epsapp/shared_prefrences/sharing_userInfos.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +17,8 @@ class connecter extends StatefulWidget {
 }
 
 class _connecterState extends State<connecter> {
+  QuerySnapshot SnapchatUserInfo;
+  final DatabaseFonctions DataGet =DatabaseFonctions();
   final _formKey=GlobalKey<FormState>();
   bool loading=false;
   String eroor ="";
@@ -85,11 +90,20 @@ actions: <Widget>[
                 RaisedButton(onPressed:() async {
                   if (_formKey.currentState.validate()) {
                     setState(() => loading = true);
+                    DataGet.getUserNameByEmail(email)
+                        .then((val){
+                      SnapchatUserInfo=val;
+                      sharingUserInfo.saveuserUserNameSharedprefences(SnapchatUserInfo.documents[0].data["pseudo"]);
+                    });
+                    sharingUserInfo.saveuserUserEmailSharedprefences(email);
+                    sharingUserInfo.saveuserLoggedInSharedprefences(true);
+
+
                     dynamic result = await _auth.singIn(email, password);
 
                       setState(() { loading = false;
                       eroor=result;
-
+                      sharingUserInfo.saveuserLoggedInSharedprefences(false);
                       });
 
                   };
