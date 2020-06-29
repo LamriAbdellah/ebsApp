@@ -13,6 +13,7 @@ class account extends StatefulWidget {
 
 class _accountState extends State<account> {
 
+
   @override
   Widget build(BuildContext context) {
 
@@ -57,6 +58,7 @@ class _accountState extends State<account> {
                   ),
 
                   SizedBox(height: 50.0,),
+
                   Center(
                     child: FlatButton.icon(onPressed: () {
                       widget.changement();
@@ -78,4 +80,6 @@ class _accountState extends State<account> {
       }
     );
   }
+
+
 }

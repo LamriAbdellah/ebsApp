@@ -1,3 +1,4 @@
+import 'package:epsapp/Constances/constants.dart';
 import 'package:epsapp/loading.dart';
 import 'package:epsapp/models/user.dart';
 import 'package:epsapp/services/database.dart';
@@ -13,17 +14,16 @@ class settings extends StatefulWidget {
 }
 
 class _settingsState extends State<settings> {
-  int algo=1;
-  int analyse=1;
-  int algebre=1;
-  int elect=1;
-  int mecanq=1;
-  int poo=1;
+  int algo=Constants.algo;
+  int analyse=Constants.analyse;
+  int algebre=Constants.algebre;
+  int elect=Constants.elect;
+  int mecanq=Constants.mecanq;
+  int poo=Constants.poo;
   String pseudo;
   @override
   Widget build(BuildContext context) {
     final user =Provider.of<User>(context);
-
 
     return StreamBuilder<UserData>(
       stream: DatabaseServices(uid:user.uid).user,
@@ -73,7 +73,7 @@ class _settingsState extends State<settings> {
                       Text("algorithme"),
                       Slider(
                         value: (algo ?? 1).toDouble(),
-                        label: "$algo",
+                        label: algo.toString(),
                         inactiveColor: Colors.amber[algo?? 100],
                         activeColor:Colors.amber[algo*100 ?? 100],
                         min: 1.0,
@@ -89,7 +89,7 @@ class _settingsState extends State<settings> {
                       Text("analyse"),
                       Slider(
                         value: (analyse ?? 1).toDouble(),
-                        label: "$analyse",
+                        label: analyse.toString(),
                         inactiveColor: Colors.amber[analyse?? 100],
                         activeColor:Colors.amber[analyse*100 ?? 100],
                         min: 1.0,
@@ -105,7 +105,7 @@ class _settingsState extends State<settings> {
                     children: <Widget>[
                       Text("algebre"),
                       Slider(
-                        label: "$algebre",
+                        label: algebre.toString(),
                         value: ( algebre ?? 1).toDouble(),
                         inactiveColor: Colors.amber[algebre?? 100],
                         activeColor:Colors.amber[algebre*100 ?? 100],
@@ -121,7 +121,7 @@ class _settingsState extends State<settings> {
                     children: <Widget>[
                       Text("electronique"),
                       Slider(
-                        label: "$elect",
+                        label: elect.toString(),
                         value: (elect ?? 1).toDouble(),
                         inactiveColor: Colors.amber[elect?? 100],
                         activeColor:Colors.amber[elect*100 ?? 100],
@@ -137,7 +137,7 @@ class _settingsState extends State<settings> {
                     children: <Widget>[
                       Text("mecanqiue"),
                       Slider(
-                        label: "$mecanq",
+                        label: mecanq.toString(),
                         value: (mecanq ?? 1).toDouble(),
                         inactiveColor: Colors.amber[mecanq?? 100],
                         activeColor:Colors.amber[mecanq*100 ?? 100],

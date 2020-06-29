@@ -84,8 +84,8 @@ class DatabaseFonctions {
     return await  Firestore.instance.collection("students").where("email",isEqualTo: email)
         .getDocuments();
   }
-  getUserNameByID (String id) async{
-  return  await Firestore.instance.collection("students").where("uid",isEqualTo: id)
+  getUserNameByID (String uid) async{
+  return  await Firestore.instance.collection("students").where("uid",isEqualTo: uid)
   .getDocuments();
   }
   // fonction utiliser pour recuprer le psuedo de lutilisateur par son email
@@ -93,4 +93,8 @@ class DatabaseFonctions {
     return await  Firestore.instance.collection("students").where("pseudo",isEqualTo: name)
         .getDocuments();
   }
+  getModulesLevel  ( String Name)  async{
+    return  await Firestore.instance.collection("students").where("pseudo",isEqualTo: Name)
+        .getDocuments();
+    }
 }
