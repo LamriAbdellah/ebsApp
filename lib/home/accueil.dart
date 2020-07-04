@@ -23,12 +23,25 @@ final String uid;
 
 class _accueilState extends State<accueil> {
 
-
-  final  AuthService _auth = AuthService();
-  void initState(){
+@override
+  void initState() {
+    // TODO: implement initState
+  getUserName(widget.uid);
     super.initState();
   }
+  final  AuthService _auth = AuthService();
 
+  QuerySnapshot SnapchatUserInfo;
+  final DatabaseFonctions DataGet = DatabaseFonctions();
+
+
+  getUserName(String uid) {
+    DataGet.getUserNameByID(uid)
+        .then((val){
+      SnapchatUserInfo=val;
+      Constants.Name= SnapchatUserInfo.documents[0].data["pseudo"] ;
+    });
+  }
 
   //les trois pages send received send
   /* int _currentindex;

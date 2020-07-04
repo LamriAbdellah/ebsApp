@@ -16,7 +16,21 @@ class AuthService {
   }
 
 
+Future ResetPassword(String email)async{
+    try {
+      String message="email sent succefully";
+  await _auth.sendPasswordResetEmail (email: email)
+      .then((value){
+    message="email sent succefully";
+  });
+      return message;
+    }
+    catch(error){
+      String errorMessage = "their are an error";
+      return errorMessage ;
+    }
 
+}
 //connecter avc email password
 
   Future singIn (String email,String password) async {
