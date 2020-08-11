@@ -23,15 +23,8 @@ class _WrapperState extends State<Wrapper> {
 
   final DatabaseFonctions DataGet = DatabaseFonctions();
 
-  Future getUserName() async {
-    Constants.Name=await sharingUserInfo.getuserNameSharedprefences();
-    Constants.Email= await sharingUserInfo.getuserEmailSharedprefences();
-  }
 
-  @override
-  void initState() {
-    super.initState();
-  }
+
   @override
   Widget build(BuildContext context) {
 

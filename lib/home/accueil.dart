@@ -10,7 +10,7 @@ import 'package:epsapp/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:epsapp/home/chatpage.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
+import 'package:epsapp/shared_prefrences/sharing_userInfos.dart';
 import '../loading.dart';
 class NavDrawer extends StatelessWidget {
 
@@ -80,11 +80,14 @@ final String uid;
   _accueilState createState() => _accueilState();
 }
 class _accueilState extends State<accueil> {
+  getUserName()async {
+    Constants.Name= await sharingUserInfo.getuserNameSharedprefences();
+  }
 
 @override
   void initState() {
     // TODO: implement initState
-  getUserName(widget.uid);
+  getUserName();
     super.initState();
   }
 
@@ -93,13 +96,7 @@ class _accueilState extends State<accueil> {
   final DatabaseFonctions DataGet = DatabaseFonctions();
 
 
-  getUserName(String uid) {
-    DataGet.getUserNameByID(uid)
-        .then((val){
-      SnapchatUserInfo=val;
-      Constants.Name= SnapchatUserInfo.documents[0].data["pseudo"] ;
-    });
-  }
+
 
   //les trois pages send received send
   /* int _currentindex;

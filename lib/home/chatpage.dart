@@ -33,11 +33,9 @@ class _chatpageState extends State<chatpage> {
   }
 
    */
-  getUserName()async {
-    Constants.Name= await sharingUserInfo.getuserNameSharedprefences();
-  }
+
   Widget ChatRomsList(){
-    getUserName();
+
     databaseChatRoom.getChatRooms(Constants.Name).
     then((value) {setState(() {
       Chatrooms = value;
