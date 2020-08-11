@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:epsapp/add_problem/studentListMaker.dart';
 import 'package:epsapp/models/studentSearch.dart';
 import 'package:epsapp/services/database.dart';
@@ -19,8 +21,10 @@ class _etud_listState extends State<etud_list> {
     return StreamProvider<List<student>>.value(
       value: DatabaseServices().Students,
       child: Scaffold(
+        backgroundColor:    Color(0xffFCFAF1),
           appBar: AppBar(
-                title: Text('eps '),
+                backgroundColor: Color(0xff1E3F63),
+            brightness:Brightness.light,
 
               ),
               body:

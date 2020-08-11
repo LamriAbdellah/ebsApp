@@ -13,7 +13,8 @@ class UserData{
  final int mecanq;
  final int poo;
 final String email;
-  UserData(this.uid, this.pseudo, this.algo,this.analyse,this.algebre,this.elect,this.mecanq,this.poo,this.email);
+ final String imageUrl;
+  UserData(this.uid, this.pseudo, this.algo,this.analyse,this.algebre,this.elect,this.mecanq,this.poo,this.email, this.imageUrl);
  dynamic getProp(String key) => <String, dynamic>{
   'name':pseudo,
   'Algo' : algo,

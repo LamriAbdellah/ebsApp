@@ -30,7 +30,9 @@ final user =Provider.of<User>(context);
             UserData user = snapshot.data;
 
             return loading ? Loading(): Scaffold(
+
               appBar: AppBar(
+
                 title: Text("Account"),
 
               ),
@@ -141,7 +143,7 @@ final user =Provider.of<User>(context);
                           setState(() => loading = true);
 
                           await DatabaseServices(uid:user.uid).updateUserData(user.pseudo ?? user.pseudo,user.email, algo ?? user.algo,analyse ?? user.analyse,
-                            algebre ?? user.algebre,elect ?? user.elect,mecanq ?? user.mecanq,poo ?? user.poo,);
+                            algebre ?? user.algebre,elect ?? user.elect,mecanq ?? user.mecanq,poo ?? user.poo,user.imageUrl);
 
                           Navigator.pop(context, MaterialPageRoute(builder: (context) {
                             return null;

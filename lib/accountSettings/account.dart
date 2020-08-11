@@ -1,3 +1,4 @@
+import 'package:epsapp/accountSettings/AvatarImage.dart';
 import 'package:epsapp/loading.dart';
 import 'package:epsapp/models/user.dart';
 import 'package:epsapp/screens/ResetPassword.dart';
@@ -28,8 +29,10 @@ class _accountState extends State<account> {
         if (snapshot.hasData) {
           UserData user = snapshot.data;
           return Scaffold(
+            backgroundColor: Color(0xffFCFAF1),
             appBar: AppBar(
-              title: Text("Account"),
+              backgroundColor:Color(0xff1E3F63),
+              title: Text("Mon profil",style:TextStyle(fontFamily: 'Lora',)),
 
             ),
             body: Padding(
@@ -39,62 +42,74 @@ class _accountState extends State<account> {
 
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+
                     children: <Widget>[
                       Center(
-                        child: CircleAvatar(
-                          radius: 20.0,
-                          child: Text("${user.pseudo.substring(0,1).toUpperCase()}"),
-                        ),
+                        child: Avatar(AvatarUrl: user.imageUrl,),
                       ),
                       Divider(
-                        color: Colors.grey[800],
+
+                        color: Colors.grey[600],
+                        thickness: 8,
                         height: 60.0,
                       ),
                       Text(
-                        'NAME',
+
+                        'NOM D\'UTILISATEUR',
                         style: TextStyle(
-                          color: Colors.grey,
+                          color: Colors.grey[600],
                           letterSpacing: 2.0,
+                            fontFamily: 'Lora',
+                            fontWeight: FontWeight.bold
                         ),
+
                       ),
                       SizedBox(height: 10.0),
                       Text(
                         user.pseudo,
                         style: TextStyle(
-                          color: Colors.amberAccent[200],
+                          color: Color(0xff077893),
                           fontWeight: FontWeight.bold,
-                          fontSize: 28.0,
-                          letterSpacing: 2.0,
+                          fontSize: 18.0,
+                          letterSpacing: 0.5,
+                          fontFamily: 'Moon'
                         ),
                       ),
 
                       SizedBox(height: 50.0,),
                       Text(
-                        'EMAIL',
+                        'ADRESSE E-MAIL',
                         style: TextStyle(
-                          color: Colors.grey,
+                          color: Colors.grey[600],
                           letterSpacing: 2.0,
+                            fontFamily: 'Lora',fontWeight: FontWeight.bold
                         ),
                       ),
                       SizedBox(height: 10.0),
                       Text(
                         user.email,
                         style: TextStyle(
-                          color: Colors.amberAccent[200],
+                          color: Color(0xff077893),
                           fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
-                          letterSpacing: 2.0,
+                          fontSize: 18.0,
+                          letterSpacing: 0.5,
+                          fontFamily: 'Moon'
                         ),
                       ),
 
-                      SizedBox(height: 50.0,),
+                      SizedBox(height: 60.0,),
                       Center(
                         child: FlatButton.icon(onPressed: () {
                           widget.changement();
                         },
                           icon: Icon(Icons.edit),
-                          label: Text("edit your infomrations"),
-                          color: Colors.blueAccent,),
+                          label: Text("Je change mes informations",style:TextStyle(fontFamily: 'Lora',fontWeight: FontWeight.bold)),
+                          color: Color(0xffE4E0CA),
+                          shape:RoundedRectangleBorder(
+                            borderRadius:BorderRadius.circular(60),
+
+                          ) ,),
+
                       ),
                       SizedBox(height: 5.0,),
                       Center(
@@ -105,9 +120,13 @@ class _accountState extends State<account> {
 
                         }
                         ,
+                          shape:RoundedRectangleBorder(
+                            borderRadius:BorderRadius.circular(60),
+
+                          ) ,
                           icon: Icon(Icons.settings),
-                          label: Text("reset your password"),
-                          color: Colors.redAccent,),
+                          label: Text("Je modifié mon mot de passe",style:TextStyle(fontFamily: 'Lora',fontWeight: FontWeight.bold)),
+                          color: Colors.grey[300],),
                       ),
                     ],
                   ),

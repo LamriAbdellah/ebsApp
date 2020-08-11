@@ -8,6 +8,7 @@ static int algo;
   static int elect;
   static int mecanq;
   static int poo;
+  static String uid;
   
   
 

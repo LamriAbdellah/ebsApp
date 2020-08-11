@@ -11,18 +11,18 @@ class AuthService {
   // detecter la connection
   Stream<User> get user{
     return _auth.onAuthStateChanged
-        //.map((FirebaseUser user) => _userfromfirebase(user));
-    .map(_userfromfirebase);
+    //.map((FirebaseUser user) => _userfromfirebase(user));
+        .map(_userfromfirebase);
   }
 
 
-Future ResetPassword(String email)async{
+  Future ResetPassword(String email)async{
     try {
       String message="email sent succefully";
-  await _auth.sendPasswordResetEmail (email: email)
-      .then((value){
-    message="email sent succefully";
-  });
+      await _auth.sendPasswordResetEmail (email: email)
+          .then((value){
+        message="email sent succefully";
+      });
       return message;
     }
     catch(error){
@@ -30,7 +30,7 @@ Future ResetPassword(String email)async{
       return errorMessage ;
     }
 
-}
+  }
 //connecter avc email password
 
   Future singIn (String email,String password) async {
@@ -55,8 +55,8 @@ Future ResetPassword(String email)async{
           errorMessage = "User with this email doesn't exist.";
           break;
         case "ERROR_TOO_MANY_REQUESTS":
-        errorMessage = "Too many requests. Try again later.";
-        break;
+          errorMessage = "Too many requests. Try again later.";
+          break;
         default:
           errorMessage = "An undefined Error happened.";
       }
@@ -64,22 +64,24 @@ Future ResetPassword(String email)async{
     }
   }
 //insciption
-Future register ( String email,String password,String pseudo,int algo,
-    int analyse,
-    int algebre,
-    int elect,
-    int mecanq,
-    int poo,) async {
+  Future register ( String email,String password,String pseudo,int algo,
+      int analyse,
+      int algebre,
+      int elect,
+      int mecanq,
+      int poo,
+      String imageUrl) async {
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
       await DatabaseServices(uid: user.uid).updateUserData(pseudo,email,algo,
-         analyse,
-         algebre,
-         elect,
-        mecanq,
-        poo,);
+          analyse,
+          algebre,
+          elect,
+          mecanq,
+          poo,
+          imageUrl);
       return _userfromfirebase(user);
 
     }
@@ -107,19 +109,19 @@ Future register ( String email,String password,String pseudo,int algo,
       return errorMessage;
     }
 
-    }
-    
+  }
+
 // get current user
 
 //deconnecter
-Future SingOut() async {
+  Future SingOut() async {
     try {
       return await _auth.signOut();
     }
     catch(e){
       return null;
     }
-}
+  }
 
 
 

@@ -27,139 +27,201 @@ class _inscriptionState extends State<inscription> {
   String password="";
   String repassword="";
   String eroor="";
+  String imageUrl="https://firebasestorage.googleapis.com/v0/b/eps-app-58971.appspot.com/o/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png?alt=media&token=b2c79a4d-2929-45f2-bcd6-cf5d35d86ce0";
+
 
   //variable de firebaseauthen
   final  AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
     return loading ? Loading() : Scaffold(
-      appBar: AppBar(
-        title: Text('Registration'),
-        actions: <Widget>[FlatButton.icon(onPressed: (){widget.changement();}, icon: Icon(Icons.person), label:Text("se connecter"))],
-
-      ),
+     
       body: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              colors: [
+                Color(0xff1E3F63),
+                Color(0xff077893),
 
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: 20.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18.0,vertical: 10.0),
-                  child: TextFormField(
-                    validator: (val)=> val.isEmpty ? 'enter a name' :null,
-                    decoration: InputDecoration(
-                      prefixIcon:Icon(Icons.supervised_user_circle),
-                      labelText: ('Name'),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      border: OutlineInputBorder(),
+              ]
+          ),
 
-                    ),
+        ),
+        child: Column(
+          children: <Widget>[
+            SizedBox(height: 100,),
+            Text("S\'inscrire",
+              style: TextStyle(
+                fontSize:28.0,
+                fontWeight: FontWeight.bold,
+                  fontFamily: 'Lora'
+              ),
+            ),
 
-                    onChanged: (val) {  setState(()=>pseudo=val);
+            SizedBox(height:50,),
+            Expanded(
 
-                    },
-                  ),
+
+              child: Container(
+                decoration: BoxDecoration(
+
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        colors: [
+                          Color(0xffFCFAF1),
+                          Color(0xffFCFAF1),
+
+                        ]),
+                    borderRadius: BorderRadius.only(topLeft: Radius.elliptical(200,100), topRight: Radius.elliptical(200,100),bottomLeft:Radius.elliptical(200,100),bottomRight:Radius.elliptical(200,100)),
 
                 ),
-                SizedBox(height: 20.0),
 
-                SizedBox(height: 20.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
-                  child: TextFormField(
-                      validator: (val)=> val.isEmpty ? 'enter an email' :null,
-                    onChanged: (val) {  setState(()=>email=val);
-                    },
-                    decoration: InputDecoration(
+                child: Form(
+                  key: _formKey,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: 30.0),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 18.0,vertical: 10.0),
+                          child: TextFormField(validator: (val)=> val.isEmpty ? 'Entrez un nom d\'utlisateur' :null,
+                            decoration: InputDecoration(
+                              prefixIcon:Icon(Icons.supervised_user_circle,color:Colors.grey,),
+                              hintText:"Nom d\'utilisateur",
+                              hintStyle: TextStyle(color: Colors.grey, fontFamily: 'Moon'),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white,width: 30,),
+                                borderRadius:BorderRadius.circular(60),
+                              ),
+                              border: OutlineInputBorder(borderRadius:BorderRadius.circular(60
+                              ),
 
-                      prefixIcon:Icon(Icons.email),
-                      labelText:'E-mail',
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      border: OutlineInputBorder(),
-                    ),
+                              ),
 
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
-                  child: TextFormField(
-                    validator: (val)=> val.isEmpty ? 'enter a password' :null,
-                    onChanged: (val) {
-                      setState(()=>password=val);
-                    },
-                    decoration: InputDecoration(
+                            ),
 
-                      prefixIcon:Icon(Icons.lock),
-                      labelText:'password',
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      border: OutlineInputBorder(),
-                    ),
-                    obscureText:true,
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                Padding(
+                            onChanged: (val) {  setState(()=>pseudo=val);
 
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
-                  child: TextFormField(
-                    validator: (val){  if(val.isEmpty)
-    return 'repeat the  password';
+                            },
+                          ),
+
+                        ),
+                        SizedBox(height: 20.0),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 18.0,vertical: 10.0),
+                          child: TextFormField(
+                              validator: (val)=> val.isEmpty ? 'Enterez une adresse e-mail' :null,
+                            onChanged: (val) {  setState(()=>email=val);
+                            },
+                            decoration: InputDecoration(
+
+                              prefixIcon:Icon(Icons.email,color:Colors.grey,),
+                              hintText:"Adresse e-mail",
+                              hintStyle: TextStyle(color: Colors.grey,fontFamily: 'Moon'),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white,width: 30,),
+                                borderRadius:BorderRadius.circular(60),
+                              ),
+                              border: OutlineInputBorder(borderRadius:BorderRadius.circular(60),),
+                            ),
+
+                          ),
+                        ),
+                        SizedBox(height: 20.0),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 18.0,vertical: 10.0),
+                          child: TextFormField(
+                            validator: (val)=> val.isEmpty ? 'Enterez un mot de passe' :null,
+                            onChanged: (val) {
+                              setState(()=>password=val);
+                            },
+                            decoration: InputDecoration(
+
+                              prefixIcon:Icon(Icons.lock,color:Colors.grey,),
+                              hintText:"Mot de passe",
+                              hintStyle: TextStyle(color: Colors.grey,fontFamily: 'Moon'),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white,width: 30,),
+                                borderRadius:BorderRadius.circular(60),
+                              ),
+                              border: OutlineInputBorder(borderRadius:BorderRadius.circular(60),),
+                            ),
+                            obscureText:true,
+                          ),
+                        ),
+                        SizedBox(height: 20.0),
+                        Padding(
+
+                          padding: const EdgeInsets.symmetric(horizontal: 18.0,vertical: 10.0),
+                          child: TextFormField(
+                            validator: (val){  if(val.isEmpty)
+    return 'Veulliez confirmer le mot de passe';
     if(val != password)
     return ' passwords doesnt match';
     return null;},
 
     onChanged: (val) {
-                      setState(()=>repassword=val);
-                    },
-                    decoration: InputDecoration(
+                              setState(()=>repassword=val);
+                            },
+                            decoration: InputDecoration(
+                              hintText:"Confirmation mot de passe",
+                              hintStyle: TextStyle(color: Colors.grey,fontFamily: 'Moon'),
+                              prefixIcon:Icon(Icons.lock,color:Colors.grey,),
 
-                      prefixIcon:Icon(Icons.lock),
-                      labelText:'password confirmation',
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      border: OutlineInputBorder(),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white,width: 30,),
+                                borderRadius:BorderRadius.circular(60),
+                              ),
+                              border: OutlineInputBorder(borderRadius:BorderRadius.circular(60),),
+                            ),
+                            obscureText:true,
+                          ),
+                        ),
+
+                        SizedBox(height: 15.0,),
+                        RaisedButton(onPressed:() async {
+                          if (_formKey.currentState.validate()){
+
+                            setState(() => loading = true);
+                          await sharingUserInfo.saveuserLoggedInSharedprefences(true);
+                            await  sharingUserInfo.saveuserUserNameSharedprefences(pseudo);
+                            await sharingUserInfo.saveuserUserEmailSharedprefences(email);
+                            dynamic result =await _auth.register(email,password,pseudo,1,1,1,1,1,1,imageUrl);
+                      //problem de connection ou email forme incorrect
+                           setState(() { loading = false;
+                        eroor=result;
+                        });
+                        };
+                        },
+                          padding:EdgeInsets.symmetric(horizontal: 16.0,vertical: 8.0),
+                          color:Color(0xffE4E0CA),
+                          child: Text('S\'inscrire',style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'lora'),),
+                          shape:RoundedRectangleBorder(
+                            borderRadius:BorderRadius.circular(10),
+
+                          ) ,
+                        ),
+                        SizedBox(height: 5.0,),
+                        Text(eroor, style: TextStyle(color: Colors.red),),
+
+                    RaisedButton(
+                      onPressed: ()=>widget.changement(),
+                      child:Text('Se connecter',style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'lora'),),
+                      shape:RoundedRectangleBorder(
+                        borderRadius:BorderRadius.circular(10),
+
+                      )) ,
+                      ],
                     ),
-                    obscureText:true,
                   ),
-                ),
 
-                SizedBox(height: 10.0,),
-                RaisedButton(onPressed:() async {
-                  if (_formKey.currentState.validate()){
 
-                    setState(() => loading = true);
-                   sharingUserInfo.saveuserLoggedInSharedprefences(true);
-                   sharingUserInfo.saveuserUserNameSharedprefences(pseudo);
-                   sharingUserInfo.saveuserUserEmailSharedprefences(email);
-                    dynamic result =await _auth.register(email,password,pseudo,1,1,1,1,1,1);
-              //problem de connection ou email forme incorrect
-                   setState(() { loading = false;
-                eroor=result;
-                });
-                };
-                },
-                  padding:EdgeInsets.symmetric(horizontal: 16.0,vertical: 8.0),
-                  color:Colors.blue,
-                  child: Text('register'),
                 ),
-                SizedBox(height: 20.0,),
-                Text(eroor, style: TextStyle(color: Colors.red),),
-              ],
+              ),
             ),
-          ),
-
-
+          ],
         ),
       ),
     );

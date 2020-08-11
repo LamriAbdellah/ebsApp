@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:epsapp/Constances/constants.dart';
 import 'package:epsapp/chat/messagescreen.dart';
+import 'package:epsapp/home/Avatarimage.dart';
 import 'package:epsapp/services/database.dart';
+import 'package:epsapp/shared_prefrences/sharing_userInfos.dart';
 import 'package:flutter/material.dart';
 class chatpage extends StatefulWidget {
 final String uid;
@@ -17,6 +19,7 @@ class _chatpageState extends State<chatpage> {
   final DatabaseFonctions DataGet = DatabaseFonctions();
   DatabaseChatRoom databaseChatRoom = DatabaseChatRoom();
   Stream Chatrooms;
+  String imageUrl="";
   @override
   /*
   void initState()  {
@@ -30,14 +33,11 @@ class _chatpageState extends State<chatpage> {
   }
 
    */
-  getUserName(String uid) {
-    DataGet.getUserNameByID(uid)
-        .then((val){
-      SnapchatUserInfo=val;
-      Constants.Name= SnapchatUserInfo.documents[0].data["pseudo"] ;
-    });
+  getUserName()async {
+    Constants.Name= await sharingUserInfo.getuserNameSharedprefences();
   }
   Widget ChatRomsList(){
+    getUserName();
     databaseChatRoom.getChatRooms(Constants.Name).
     then((value) {setState(() {
       Chatrooms = value;
@@ -50,7 +50,7 @@ class _chatpageState extends State<chatpage> {
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index) {
                 return ChatRoomUi(UserName:snapshot.data.documents[index].data["chatroomid"].toString()
-                .replaceAll("_", "").replaceAll(Constants.Name ?? "" , ""),ChatRoomId:snapshot.data.documents[index].data["chatroomid"],) ;
+                    .replaceAll("_", "").replaceAll(Constants.Name ?? "" , ""),ChatRoomId:snapshot.data.documents[index].data["chatroomid"],ImageUrl: imageUrl,) ;
               }
           ) : Container();
         }
@@ -68,36 +68,29 @@ class _chatpageState extends State<chatpage> {
 class ChatRoomUi extends StatelessWidget {
   final String UserName;
   final String ChatRoomId;
-  const ChatRoomUi({Key key, this.UserName, this.ChatRoomId}) : super(key: key);
+  final String ImageUrl;
+  const ChatRoomUi({Key key, this.UserName, this.ChatRoomId, this.ImageUrl}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     int color=400;
 
     return GestureDetector(
+
       onTap: (){
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) =>
                 messagescreen(ChatRoomId: ChatRoomId,)));
-        color=200;
+
       },
       child: Container(
 color: Colors.grey[color],
         padding: EdgeInsets.symmetric(horizontal: 16,vertical: 16),
         child: Row(
           children: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(40)
-              ),
-              child: Text("${UserName.substring(0,1).toUpperCase()}"),
-            ),
+            AvatarChat(AvatarUrl:ImageUrl),
             SizedBox(width: 8,),
             Text("${UserName}"),
           ],

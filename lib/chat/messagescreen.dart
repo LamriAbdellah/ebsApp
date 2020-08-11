@@ -18,9 +18,13 @@ class _messagescreenState extends State<messagescreen> {
 
   Widget messagesBuilder(){
     return StreamBuilder(
+
       stream: chatroomStream,
       builder: (context,snapshot){
         return  snapshot.hasData ? ListView.builder(
+          shrinkWrap: true,
+           
+
             itemCount: snapshot.data.documents.length,
             itemBuilder:(context,index){
 return MessageTile(message:snapshot.data.documents[index].data["message"],
@@ -68,52 +72,97 @@ databaseChatRoom.getChatRoomMessages(widget.ChatRoomId)
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+
+      extendBodyBehindAppBar:true,
       appBar: AppBar(
-        title: Text("Chat"),
+
+        backgroundColor: Color(0xff1E3F63),
+        title: Text("Discussion"),
         actions: <Widget>[
+          
           IconButton(icon: Icon(Icons.call), onPressed: () {}),
           IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
         ],
       ),
-      body: Container(
-        color: Colors.black87,
-        child: Stack(
-          children: <Widget>[
-            messagesBuilder(),
-            Container(
+      body: GestureDetector(
+        onTap:()=>FocusScope.of(context).unfocus(),
+        child: Container(
+          decoration: BoxDecoration(
 
-                alignment: Alignment.bottomCenter,
-                child: Opacity(
-                  opacity: 0.6,
-                  child: Container(
-                    color: Colors.grey[400],
-                    child: Row(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                colors: [
+                  Color(0xffFCFAF1),
+                  Color(0xffFCFAF1),
 
-                      children: <Widget>[
-                        Flexible(child: Container(
-                          color: Colors.grey[400],
-                          child: TextField(
-                            controller: messageControler,
-                            decoration: InputDecoration.collapsed(hintText:"write a message"),
+                ]),
+
+
+          ),
+          child: Stack(
+            children: <Widget>[
+
+              messagesBuilder(),
+
+              Container(
+
+                  alignment: Alignment.bottomCenter,
+                  child: Opacity(
+                    opacity: 0.6,
+                    child: Container(
+                      color: Color(0xff1E3F63),
+
+                      child: Row(
+
+                        children: <Widget>[
+                          Flexible(
+
+                              child: Container(
+
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(15, 4, 8, 4),
+                              child: TextField(
+
+                                controller: messageControler,
+                                textAlign:TextAlign.center,
+                                decoration: InputDecoration(
+                                 fillColor:Color(0xffFAF8F2),
+                                    filled: true,
+                                    hintText:"Aa",
+                                  hintStyle:TextStyle(color:Colors.grey),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius:BorderRadius.circular(80),
+                                  ),
+                                  border: OutlineInputBorder(borderRadius:BorderRadius.circular(80),),
+                                ),
+                              ),
+                            ),
+                          )
+
                           ),
-                        )),
-                        IconButton(icon: (Icon(Icons.attach_file)),
-                          onPressed: () {},
-                        ),
-                        FloatingActionButton(
-                            mini: true,
-                            onPressed: () {SendMessage();},
-                            child: (Icon(Icons.send)
-                            )),
 
-                      ],
+                          IconButton(icon: (Icon(Icons.attach_file)),
+                            onPressed: () {},
+                          ),
+                          Container(
+                            child: FloatingActionButton(
+mini: true,
+                                backgroundColor: Colors.grey,
+                                onPressed: () {SendMessage();},
+                                child: (Icon(Icons.send)
+                                )
+                            ),
+                          ),
+
+                        ],
+                      ),
                     ),
-                  ),
-                )
-            ),
+                  )
+              ),
 
 
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -130,11 +179,12 @@ class MessageTile  extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
       return Container(
-        padding: EdgeInsets.only(left:IsSendByMe ? 0:24,right:IsSendByMe ? 24:0),
-margin: EdgeInsets.symmetric(vertical: 8),
+        padding: EdgeInsets.only(left:IsSendByMe ? 60:10,right:IsSendByMe ? 10:60),
+          margin: EdgeInsets.symmetric(vertical: 8),
         width: MediaQuery.of(context).size.width,
         alignment: IsSendByMe ? Alignment.centerRight : Alignment.centerLeft,
         child: Container(
+
           padding: EdgeInsets.symmetric(horizontal: 24,vertical: 16),
           decoration: BoxDecoration(
           borderRadius: IsSendByMe ? BorderRadius.only(
@@ -145,11 +195,11 @@ margin: EdgeInsets.symmetric(vertical: 8),
               topLeft: Radius.circular(23),topRight: Radius.circular(23),
             bottomRight: Radius.circular(23)
         ),
-            gradient: LinearGradient(colors: IsSendByMe ?[Colors.grey,Colors.grey[500]] :[Colors.blueAccent, Colors.blue] ),
+            gradient: LinearGradient(colors: IsSendByMe ?[Colors.grey[350],Colors.grey[350]] :[ Color(0xffBBD0D0),Color(0xffBBD0D0)] ),
           ),
           child: Text(message
           ,style: TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontSize: 15,
             ),),
         ),

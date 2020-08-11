@@ -1,4 +1,5 @@
 
+import 'package:epsapp/SplashScreen/screen.dart';
 import 'package:epsapp/services/auth.dart';
 import 'package:epsapp/wrapper.dart';
 import 'package:flutter/material.dart';
@@ -19,15 +20,16 @@ void main() => runApp( app());
  */
 void main() => runApp( app());
 class app extends StatelessWidget {
-@override
-Widget build(BuildContext context) {
-return StreamProvider<User>.value(
-value:AuthService().user ,
-child: MaterialApp(
-home: Wrapper(index: 0,),
-),
-);
-}
+  @override
+  Widget build(BuildContext context) {
+    return StreamProvider<User>.value(
+      value:AuthService().user ,
+      child: MaterialApp(
+        home:Wrapper(),
+//Wrapper(index: 0,),
+      ),
+    );
+  }
 }
 
 

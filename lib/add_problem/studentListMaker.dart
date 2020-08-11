@@ -53,6 +53,7 @@ itemBuilder: (context,index)
                     child: Text(students[index].name),
                   ),
                   Spacer(),
+                  
                   GestureDetector(onTap: () {
                     MessageSender().SendProblem(widget.problem, getChatRoomId(students[index].name,Constants.Name));
 StartChatRoom(students[index].name);
@@ -60,23 +61,21 @@ StartChatRoom(students[index].name);
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.blueAccent,
-                          borderRadius: BorderRadius.circular(30),
-                        ),
+
                         padding: EdgeInsets.symmetric(
                             horizontal: 16, vertical: 16),
-                        child: Text("message"),
+                        child: Icon(Icons.textsms,size:30.0,),
+
                       ),
                     ),),
-
+Divider(),
                 ],
+
               );
 
 
 
 }
-
 
                 );
         }

@@ -12,7 +12,66 @@ import 'package:epsapp/home/chatpage.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../loading.dart';
+class NavDrawer extends StatelessWidget {
 
+@override
+final  AuthService _auth = AuthService();
+
+
+Widget build(BuildContext context) {
+  
+  return Drawer(
+
+    child: Container(
+      color: Color(0xffFCFAF1),
+      child: ListView(
+
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+
+
+          DrawerHeader(
+
+            decoration: BoxDecoration(
+),
+          ),
+
+          ListTile(
+
+            leading: Icon(Icons.input),
+            title: Text('Guide',style: TextStyle(fontFamily: 'Lora'),),
+            onTap: () => {},
+          ),
+          Divider(),
+          ListTile(
+            
+            leading: Icon(Icons.verified_user),
+            title: Text('Mon profil',style: TextStyle(fontFamily: 'Lora'),),
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return accountSettings();
+              }));
+
+            },
+            
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.power_settings_new),
+            title: Text('Se déconnecter',style: TextStyle(fontFamily: 'Lora'),),
+            onTap: () async {
+
+              dynamic result = await _auth.SingOut();
+              if (result==null){Loading();}
+            },
+          ),
+          Divider(),
+        ],
+      ),
+    ),
+  );
+}
+}
 class accueil extends StatefulWidget {
   final int index;
 final String uid;
@@ -20,7 +79,6 @@ final String uid;
   @override
   _accueilState createState() => _accueilState();
 }
-
 class _accueilState extends State<accueil> {
 
 @override
@@ -29,7 +87,7 @@ class _accueilState extends State<accueil> {
   getUserName(widget.uid);
     super.initState();
   }
-  final  AuthService _auth = AuthService();
+
 
   QuerySnapshot SnapchatUserInfo;
   final DatabaseFonctions DataGet = DatabaseFonctions();
@@ -51,30 +109,23 @@ class _accueilState extends State<accueil> {
   ];
 
    */
+
   //avoir les chatroom en temp reele
   Widget build(BuildContext context) {
 
+
     return  Scaffold(
+
+drawer: NavDrawer(),
+      backgroundColor: Color(0xffFCFAF1),
       appBar: AppBar(
-        title: Text('eps '),
-        actions: <Widget>[IconButton(icon: Icon(Icons.person), onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return accountSettings();
-          }));
-
-        }),
-          IconButton(onPressed: () async {
-
-              dynamic result = await _auth.SingOut();
-              if (result==null){Loading();}
-            },
-              icon: Icon(Icons.power_settings_new),
-
-              color: Colors.redAccent,),
-          ],
-
+        backgroundColor:Color(0xff1E3F63),
+        title: Text('EBS ',style: TextStyle(fontFamily: 'Lora',fontSize: 28.0,letterSpacing: 2.0),),
+        centerTitle: true,
       ),
-      body:Constants.Name!=null ? chatpage(uid: widget.uid,) : SpinKitDoubleBounce(
+   body:
+
+      Constants.Name!=null ? chatpage(uid: widget.uid,) : SpinKitDoubleBounce(
         color:Colors.black45,
         size: 50.0,
       ),
@@ -86,6 +137,7 @@ class _accueilState extends State<accueil> {
         child: Icon(
           //Add Problem
           Icons.add,
+
           size: 30,
         ),
         onPressed: () {
