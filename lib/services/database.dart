@@ -12,6 +12,11 @@ class DatabaseServices{
   //avoir la liste des etudients qui ont un niv > sup que lutilisateur
   final Query studentsSearch =  Firestore.instance.collection("students").where(selectedModule.selected_module.toLowerCase(),isGreaterThan:Constants.Module_level);
   Future updateUserData (String pseudo,String email,int algo,int analyse,int algebre,int elect,int mecanq,int poo, String imageUrl) async{
+    int number;
+    await students.where("pseudo",isEqualTo: pseudo).getDocuments().then((value){
+      number=value.documents.length;
+    });
+
     return await students.document(uid).setData({
       'uid':uid,
       'pseudo' : pseudo,
@@ -77,7 +82,20 @@ class DatabaseChatRoom{
     return await Firestore.instance.collection("chatrooms").where("users",arrayContains: UserName)
         .snapshots();
   }
+UpdateChatRoomId(String oldName,String NewName) async{
+CollectionReference chatrooms = await Firestore.instance.collection("chatrooms");
+chatrooms.where("users",arrayContains:oldName).getDocuments()
+    .then((value){
+      QuerySnapshot chatroomsWithName=value;
+      String oldId=chatroomsWithName.documents[0].data["chatroomid"];
+      chatrooms.document(oldId).get().then((value) async{
+      await  chatrooms.document(oldId+NewName).setData(value.data);
+      });
 
+
+});
+
+}
 }
 class DatabaseFonctions {
 // fonction utiliser pour recuprer le psuedo de lutilisateur par son email

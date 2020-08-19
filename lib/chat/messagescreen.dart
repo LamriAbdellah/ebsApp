@@ -32,7 +32,9 @@ return MessageTile(message:snapshot.data.documents[index].data["message"],
 );
 
             }
-        ) : Container();
+        ) : Container(
+          child:Text("pas de messages"),
+        );
 
 
       },

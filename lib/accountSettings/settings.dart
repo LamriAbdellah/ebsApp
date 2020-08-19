@@ -5,6 +5,7 @@ import 'package:epsapp/loading.dart';
 import 'package:epsapp/models/user.dart';
 import 'package:epsapp/services/database.dart';
 import 'package:epsapp/services/storage.dart';
+import 'package:epsapp/shared_prefrences/sharing_userInfos.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -18,12 +19,13 @@ class settings extends StatefulWidget {
 }
 
 class _settingsState extends State<settings> {
-  int algo=Constants.algo;
-  int analyse=Constants.analyse;
-  int algebre=Constants.algebre;
-  int elect=Constants.elect;
-  int mecanq=Constants.mecanq;
-  int poo=Constants.poo;
+  final DatabaseChatRoom ChatRoomDataUpdate =DatabaseChatRoom();
+  int algo=Constants.algo ?? 1;
+  int analyse=Constants.analyse ?? 1;
+  int algebre=Constants.algebre ?? 1;
+  int elect=Constants.elect ?? 1;
+  int mecanq=Constants.mecanq ?? 1;
+  int poo=Constants.poo ?? 1;
   String pseudo;
   String imageUrl;
   File image;
@@ -60,7 +62,7 @@ class _settingsState extends State<settings> {
                         Ontap: () async {
                           image = await ImagePicker.pickImage(source: ImageSource.gallery);
                           imageUrl=await StorageService().UploadStorage(image);
-                          print(imageUrl);
+
 
 
 
@@ -221,9 +223,11 @@ style: TextStyle(fontFamily: 'Moon',fontWeight:FontWeight.bold),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 18),
                       child: FlatButton.icon(onPressed: () async {
-
+                        await ChatRoomDataUpdate.UpdateChatRoomId(Constants.Name, pseudo);
                           await DatabaseServices(uid:user.uid).updateUserData(pseudo ?? user.pseudo,user.email, algo ?? user.algo,analyse ?? user.analyse,
                               algebre ?? user.algebre,elect ?? user.elect,mecanq ?? user.mecanq,poo ?? user.poo,imageUrl ?? user.imageUrl);
+Constants.Name=pseudo ?? user.pseudo;
+sharingUserInfo.saveuserUserNameSharedprefences(pseudo ?? user.pseudo);
 
 
                           widget.changement();

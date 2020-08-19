@@ -9,6 +9,8 @@ static int algo;
   static int mecanq;
   static int poo;
   static String uid;
+  static List<String> studentsSearchList=[];
+  static List<String> chatroomsearchIds=[];
   
   
 

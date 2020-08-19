@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:epsapp/Constances/constants.dart';
-import 'package:epsapp/home/accueil.dart';
 import 'package:epsapp/Register_And_Login/ecran_principal.dart';
+import 'package:epsapp/home/chatpage.dart';
 import 'package:epsapp/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +23,9 @@ class _WrapperState extends State<Wrapper> {
 
   final DatabaseFonctions DataGet = DatabaseFonctions();
 
-
+  Future getUserName() async {
+    Constants.Name=await sharingUserInfo.getuserNameSharedprefences();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +36,8 @@ class _WrapperState extends State<Wrapper> {
       return ecran_principal();
     }
     else {
-
-      return accueil(index: widget.index);
+getUserName();
+      return chatpage();
 
     };
   }

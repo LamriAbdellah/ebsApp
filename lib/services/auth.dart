@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:epsapp/models/user.dart';
 import 'package:epsapp/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -72,18 +73,33 @@ class AuthService {
       int poo,
       String imageUrl) async {
     try {
-      AuthResult result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      FirebaseUser user = result.user;
-      await DatabaseServices(uid: user.uid).updateUserData(pseudo,email,algo,
-          analyse,
-          algebre,
-          elect,
-          mecanq,
-          poo,
-          imageUrl);
-      return _userfromfirebase(user);
+      //tester si lutilisateur exist deja ou non
+      int number;
+     await Firestore.instance.collection("students").where("pseudo",isEqualTo: pseudo).getDocuments()
+      .then((value){
+        number=value.documents.length;
+        print(number);
+      });
+if (number==0) {
+  AuthResult result = await _auth.createUserWithEmailAndPassword(
+      email: email, password: password);
 
+  FirebaseUser user = result.user;
+  await DatabaseServices(uid: user.uid).updateUserData(
+      pseudo,
+      email,
+      algo,
+      analyse,
+      algebre,
+      elect,
+      mecanq,
+      poo,
+      imageUrl);
+  return _userfromfirebase(user);
+}
+else {
+  return "Username Already exists";
+}
     }
 
     catch (error) {
