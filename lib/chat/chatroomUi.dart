@@ -36,13 +36,13 @@ class _ChatRoomUiState extends State<ChatRoomUi> {
     return StreamBuilder(
         stream: chatroomStream,
         builder: (context, snapshot) {
-          bool isSeen = snapshot.data.documents[snapshot.data.documents.length-1].data["isSeen"];
-          print("${isSeen}");
+          bool isSeen = (snapshot.hasData) ? snapshot.data.documents[snapshot.data.documents.length-1].data["isSeen"] : false;
+
           return (snapshot.hasData) ? GestureDetector(
 
             onTap: (){
 
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
