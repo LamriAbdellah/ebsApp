@@ -27,6 +27,9 @@ class _messagescreenState extends State<messagescreen> {
 
             itemCount: snapshot.data.documents.length,
             itemBuilder:(context,index){
+            if (snapshot.data.documents[index].data["SendBy"]!=Constants.Name){
+              DatabaseChatRoom().MakeMessagesAsSeen(snapshot.data.documents[index].data["message"], widget.ChatRoomId, snapshot.data.documents[index].data["SendBy"]);
+            }
 return MessageTile(message:snapshot.data.documents[index].data["message"],
     IsSendByMe:snapshot.data.documents[index].data["SendBy"]==Constants.Name
 );
@@ -53,6 +56,8 @@ return MessageTile(message:snapshot.data.documents[index].data["message"],
         "message": messageControler.text,
         "SendBy": Constants.Name,
         "time":DateTime.now().millisecondsSinceEpoch,
+        "time/h/m":DateTime.now().hour.toString()+":"+DateTime.now().minute.toString(),
+        "isSeen":false,
 
       };
 

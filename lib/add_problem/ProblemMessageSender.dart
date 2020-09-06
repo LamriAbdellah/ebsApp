@@ -11,6 +11,8 @@ class MessageSender{
         "message":"Module:"+ problem.module,
         "SendBy": Constants.Name,
         "time":DateTime.now().millisecondsSinceEpoch,
+       "time/h/m":DateTime.now().hour.toString()+":"+DateTime.now().minute.toString(),
+       "isSeen":false,
 
       };
 
@@ -20,6 +22,8 @@ class MessageSender{
        "message": "Title:" + problem.desc,
        "SendBy": Constants.Name,
        "time":DateTime.now().millisecondsSinceEpoch,
+       "time/h/m":DateTime.now().hour.toString()+":"+DateTime.now().minute.toString(),
+       "isSeen":false,
 
      };
 
@@ -28,6 +32,8 @@ class MessageSender{
        "message": problem.details,
        "SendBy": Constants.Name,
        "time":DateTime.now().millisecondsSinceEpoch,
+       "time/h/m":DateTime.now().hour.toString()+":"+DateTime.now().minute.toString(),
+       "isSeen":false,
 
      };
 

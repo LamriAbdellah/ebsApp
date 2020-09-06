@@ -82,20 +82,42 @@ class DatabaseChatRoom{
     return await Firestore.instance.collection("chatrooms").where("users",arrayContains: UserName)
         .snapshots();
   }
-UpdateChatRoomId(String oldName,String NewName) async{
-CollectionReference chatrooms = await Firestore.instance.collection("chatrooms");
-chatrooms.where("users",arrayContains:oldName).getDocuments()
-    .then((value){
-      QuerySnapshot chatroomsWithName=value;
-      String oldId=chatroomsWithName.documents[0].data["chatroomid"];
-      chatrooms.document(oldId).get().then((value) async{
-      await  chatrooms.document(oldId+NewName).setData(value.data);
+  getLastMessage(String ChatroomId,String UserName) async{
+    return await Firestore.instance.collection("chatrooms").document(ChatroomId).collection("chats").where("SendBy",isEqualTo: UserName).orderBy("time",descending: false)
+        .snapshots();
+  }
+  MakeMessagesAsSeen (String message,String ChatroomId,String SendBy) async{
+    return await Firestore.instance.collection("chatrooms").document(ChatroomId).collection("chats").where("SendBy",isEqualTo: SendBy).where("message",isEqualTo: message)
+        .getDocuments().then((value){
+       Firestore.instance.collection("chatrooms").document(ChatroomId).collection("chats")
+           .document( value.documents[0].documentID).updateData({
+         "isSeen":true,
+       });
+    });
+        
+  }
+  UpdateChatRoomId(String oldName,String NewName) async{
+  await Firestore.instance.collection("chatrooms")
+    .where("users",arrayContains:oldName).getDocuments()
+        .then((value){
+
+      var newChatRoomId=value.documents[0].data["chatroomid"]
+          .replaceAll(oldName,NewName).toString();
+      Firestore.instance.collection("chatrooms").document(value.documents[0].documentID).updateData({
+        "chatroomid":newChatRoomId,
       });
 
+      /* String oldId=chatroomsWithName.documents[0].data["chatroomid"];
+      chatrooms.document(oldId).get().then((value) async{
+        await  chatrooms.document(oldId+NewName).setData(value.data);
+      });
 
-});
+      */
 
-}
+
+    });
+
+  }
 }
 class DatabaseFonctions {
 // fonction utiliser pour recuprer le psuedo de lutilisateur par son email

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:epsapp/Constances/constants.dart';
 import 'package:epsapp/accountSettings/accountSettings.dart';
 import 'package:epsapp/add_problem/NewProblem.dart';
+import 'package:epsapp/chat/chatroomUi.dart';
 import 'package:epsapp/chat/messagescreen.dart';
 import 'package:epsapp/home/Avatarimage.dart';
 import 'package:epsapp/loading.dart';
@@ -147,44 +148,8 @@ class _chatpageState extends State<chatpage> {
 }
 
 
-class ChatRoomUi extends StatelessWidget {
-  final String UserName;
-  final String ChatRoomId;
-  final String ImageUrl;
-  const ChatRoomUi({Key key, this.UserName, this.ChatRoomId, this.ImageUrl}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
 
-    int color=400;
 
-    return GestureDetector(
-
-      onTap: (){
-
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                messagescreen(ChatRoomId: ChatRoomId,)));
-
-      },
-      child: Container(
-color: Colors.grey[color],
-        padding: EdgeInsets.symmetric(horizontal: 16,vertical: 16),
-        child: Row(
-          children: <Widget>[
-            AvatarChat(AvatarUrl:ImageUrl),
-            SizedBox(width: 8,),
-            Text("${UserName}"),
-          ],
-        ),
-      ),
-    );
-  }
-}
-class StudentList{
-
-}
 class GetStudentList{
 
   Query snap ;

@@ -19,7 +19,7 @@ class settings extends StatefulWidget {
 }
 
 class _settingsState extends State<settings> {
-  final DatabaseChatRoom ChatRoomDataUpdate =DatabaseChatRoom();
+  final DatabaseChatRoom datachatroom =DatabaseChatRoom();
   int algo=Constants.algo ?? 1;
   int analyse=Constants.analyse ?? 1;
   int algebre=Constants.algebre ?? 1;
@@ -223,11 +223,15 @@ style: TextStyle(fontFamily: 'Moon',fontWeight:FontWeight.bold),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 18),
                       child: FlatButton.icon(onPressed: () async {
-                        await ChatRoomDataUpdate.UpdateChatRoomId(Constants.Name, pseudo);
+                         /*datachatroom.UpdateChatRoomId(Constants.Name,pseudo);
+
+                          */
                           await DatabaseServices(uid:user.uid).updateUserData(pseudo ?? user.pseudo,user.email, algo ?? user.algo,analyse ?? user.analyse,
                               algebre ?? user.algebre,elect ?? user.elect,mecanq ?? user.mecanq,poo ?? user.poo,imageUrl ?? user.imageUrl);
-Constants.Name=pseudo ?? user.pseudo;
+/*Constants.Name=pseudo ?? user.pseudo;
 sharingUserInfo.saveuserUserNameSharedprefences(pseudo ?? user.pseudo);
+
+ */
 
 
                           widget.changement();
