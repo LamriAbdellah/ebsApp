@@ -74,7 +74,7 @@ class DatabaseChatRoom{
 
   }
   getChatRoomMessages(String ChatRoomId) async {
-    return await Firestore.instance.collection("chatrooms").document(ChatRoomId).collection("chats").orderBy("time",descending: false)
+    return await Firestore.instance.collection("chatrooms").document(ChatRoomId).collection("chats").orderBy("time",descending: true)
         .snapshots();
 
   }

@@ -61,7 +61,7 @@ class _settingsState extends State<settings> {
                         AvatarUrl:user.imageUrl,
                         Ontap: () async {
                           image = await ImagePicker.pickImage(source: ImageSource.gallery);
-                          imageUrl=await StorageService().UploadStorage(image);
+                          imageUrl=await StorageService().UploadProfilPicture(image);
 
 
 

@@ -1,7 +1,12 @@
+import 'dart:io';
 
 import 'package:epsapp/Constances/constants.dart';
+import 'package:epsapp/home/chatpage.dart';
 import 'package:epsapp/services/database.dart';
+import 'package:epsapp/services/storage.dart';
+import 'package:epsapp/wrapper.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 class messagescreen extends StatefulWidget {
   final String ChatRoomId;
 
@@ -15,27 +20,37 @@ class _messagescreenState extends State<messagescreen> {
   DatabaseChatRoom databaseChatRoom = DatabaseChatRoom();
   TextEditingController messageControler = TextEditingController();
   Stream chatroomStream;
-
+  ScrollController listScrollController = ScrollController();
+  int type;
+  String imageUrl;
+  File image;
+  StorageService storageService = StorageService();
+  String name;
   Widget messagesBuilder(){
     return StreamBuilder(
 
       stream: chatroomStream,
       builder: (context,snapshot){
-        return  snapshot.hasData ? ListView.builder(
-          shrinkWrap: true,
-           
+        return  snapshot.hasData ?            ListView.builder(
+            shrinkWrap: true,
+              controller: listScrollController,
+              reverse: true,
 
-            itemCount: snapshot.data.documents.length,
-            itemBuilder:(context,index){
-            if (snapshot.data.documents[index].data["SendBy"]!=Constants.Name){
-              DatabaseChatRoom().MakeMessagesAsSeen(snapshot.data.documents[index].data["message"], widget.ChatRoomId, snapshot.data.documents[index].data["SendBy"]);
-            }
-return MessageTile(message:snapshot.data.documents[index].data["message"],
+              itemCount: snapshot.data.documents.length,
+              itemBuilder:(context,index){
+              if (snapshot.data.documents[index].data["SendBy"]!=Constants.Name){
+                DatabaseChatRoom().MakeMessagesAsSeen(snapshot.data.documents[index].data["message"], widget.ChatRoomId, snapshot.data.documents[index].data["SendBy"]);
+              }
+return snapshot.data.documents[index].data["type"]==0 ? MessageTile(message:snapshot.data.documents[index].data["message"],
     IsSendByMe:snapshot.data.documents[index].data["SendBy"]==Constants.Name
+) :Container(child: Image.network(snapshot.data.documents[index].data["message"],width: 200.0,
+  height: 200.0,fit: BoxFit.cover,),
+
 );
 
-            }
-        ) : Container(
+              }
+          )
+         : Container(
           child:Text("pas de messages"),
         );
 
@@ -49,24 +64,57 @@ return MessageTile(message:snapshot.data.documents[index].data["message"],
 
 
 
-  //fonction pour enter le message dans la base de donne
-  SendMessage() {
-    if (messageControler.text.isNotEmpty) {
-      Map<String,dynamic> MessageMap = {
-        "message": messageControler.text,
+  //fonction pour enter les messages et les images dans la base de donne
+  SendMessage(int type) {
+    if (type==0) {
+      if (messageControler.text.isNotEmpty) {
+        Map<String, dynamic> MessageMap = {
+          "message": messageControler.text,
+          "SendBy": Constants.Name,
+          "time": DateTime
+              .now()
+              .millisecondsSinceEpoch,
+          "time/h/m": DateTime
+              .now()
+              .hour
+              .toString() + ":" + DateTime
+              .now()
+              .minute
+              .toString(),
+          "isSeen": false,
+"type":0,
+
+        };
+
+        databaseChatRoom.addChatRoomMessages(widget.ChatRoomId, MessageMap);
+        messageControler.text = "";
+      }
+    }
+    else{if (type==1){
+      Map<String, dynamic> MessageMap = {
+        "message":imageUrl,
         "SendBy": Constants.Name,
-        "time":DateTime.now().millisecondsSinceEpoch,
-        "time/h/m":DateTime.now().hour.toString()+":"+DateTime.now().minute.toString(),
-        "isSeen":false,
+        "time": DateTime
+            .now()
+            .millisecondsSinceEpoch,
+        "time/h/m": DateTime
+            .now()
+            .hour
+            .toString() + ":" + DateTime
+            .now()
+            .minute
+            .toString(),
+        "isSeen": false,
+        "type":1,
 
       };
-
       databaseChatRoom.addChatRoomMessages(widget.ChatRoomId, MessageMap);
-      messageControler.text="";
-    }
+    }}
   }
 @override
   void initState() {
+    name=widget.ChatRoomId.replaceAll("_", "").replaceAll(Constants.Name ?? "" , "");
+    imageUrl="";
 databaseChatRoom.getChatRoomMessages(widget.ChatRoomId)
 .then((value){
   setState(() {
@@ -82,13 +130,16 @@ databaseChatRoom.getChatRoomMessages(widget.ChatRoomId)
 
       extendBodyBehindAppBar:true,
       appBar: AppBar(
-
+leading:IconButton(icon: Icon(Icons.arrow_back), onPressed: () { Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+  return Wrapper();
+}));}),
         backgroundColor: Color(0xff1E3F63),
-        title: Text("Discussion"),
+        title: Text("${name}"),
         actions: <Widget>[
-          
+
           IconButton(icon: Icon(Icons.call), onPressed: () {}),
           IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+
         ],
       ),
       body: GestureDetector(
@@ -148,14 +199,26 @@ databaseChatRoom.getChatRoomMessages(widget.ChatRoomId)
 
                           ),
 
-                          IconButton(icon: (Icon(Icons.attach_file)),
-                            onPressed: () {},
+                          IconButton(icon: (Icon(Icons.photo)),
+                            onPressed: () async {
+                              image = await ImagePicker.pickImage(source: ImageSource.gallery);
+                              imageUrl=await StorageService().UploadPictures(image);
+                              SendMessage(1);},
+
+                          ),
+                          IconButton(icon: (Icon(Icons.camera_enhance)),
+                            onPressed: () async {
+                              image = await ImagePicker.pickImage(source: ImageSource.camera);
+                              imageUrl=await StorageService().UploadPictures(image);
+                              SendMessage(1);},
+
                           ),
                           Container(
                             child: FloatingActionButton(
 mini: true,
                                 backgroundColor: Colors.grey,
-                                onPressed: () {SendMessage();},
+                                onPressed: () {SendMessage(0);
+                                listScrollController.animateTo(0.0,duration: Duration(milliseconds: 300), curve: Curves.easeOut);},
                                 child: (Icon(Icons.send)
                                 )
                             ),
