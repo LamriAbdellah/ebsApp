@@ -79,8 +79,10 @@ class DatabaseChatRoom{
 
   }
   getChatRooms(String UserName) async{
-    return await Firestore.instance.collection("chatrooms").where("users",arrayContains: UserName)
-        .snapshots();
+
+      return await Firestore.instance.collection("chatrooms").where(
+          "users", arrayContains: UserName).snapshots();
+
   }
   getLastMessage(String ChatroomId,String UserName) async{
     return await Firestore.instance.collection("chatrooms").document(ChatroomId).collection("chats").where("SendBy",isEqualTo: UserName).orderBy("time",descending: false)

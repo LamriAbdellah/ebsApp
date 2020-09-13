@@ -1,7 +1,6 @@
 import 'dart:io';
-
 import 'package:epsapp/Constances/constants.dart';
-import 'package:epsapp/home/chatpage.dart';
+import 'package:epsapp/chat/imageDisplayer.dart';
 import 'package:epsapp/services/database.dart';
 import 'package:epsapp/services/storage.dart';
 import 'package:epsapp/wrapper.dart';
@@ -43,15 +42,11 @@ class _messagescreenState extends State<messagescreen> {
               }
 return snapshot.data.documents[index].data["type"]==0 ? MessageTile(message:snapshot.data.documents[index].data["message"],
     IsSendByMe:snapshot.data.documents[index].data["SendBy"]==Constants.Name
-) :Container(child: Image.network(snapshot.data.documents[index].data["message"],width: 200.0,
-  height: 200.0,fit: BoxFit.cover,),
-
-);
+) :imageDisplayer(link:snapshot.data.documents[index].data["message"],IsSendByMe:snapshot.data.documents[index].data["SendBy"]==Constants.Name);
 
               }
           )
          : Container(
-          child:Text("pas de messages"),
         );
 
 

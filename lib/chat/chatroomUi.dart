@@ -20,7 +20,6 @@ class _ChatRoomUiState extends State<ChatRoomUi> {
 
   @override
   void initState() {
-    print(widget.UserName);
     databaseChatRoom.getLastMessage(widget.ChatRoomId,widget.UserName)
         .then((value){
       setState(() {
@@ -98,7 +97,51 @@ class _ChatRoomUiState extends State<ChatRoomUi> {
                 ),
               ),
 
-          ) : Container();
+          ) : GestureDetector(
+            onTap: (){
+
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          messagescreen(ChatRoomId: widget.ChatRoomId,)));
+
+            },
+            child: Container(
+              margin: EdgeInsets.only(top: 5,bottom: 5,right: 10),
+              padding: EdgeInsets.symmetric(vertical: 7,horizontal: 15),
+              decoration: BoxDecoration(
+                  color: Colors.white ,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  )
+              ),
+
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      AvatarChat(AvatarUrl:widget.ImageUrl),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text("${widget.UserName}",
+                            style: TextStyle(color: Colors.black87,fontWeight: FontWeight.bold,),),
+                          SizedBox(height: 5.0,),
+                        ],
+                      ),
+
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
         }
     );
   }

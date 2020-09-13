@@ -4,7 +4,7 @@ import 'package:epsapp/accountSettings/accountSettings.dart';
 import 'package:epsapp/add_problem/NewProblem.dart';
 import 'package:epsapp/chat/chatroomUi.dart';
 import 'package:epsapp/chat/messagescreen.dart';
-import 'package:epsapp/home/Avatarimage.dart';
+import 'package:epsapp/shared_prefrences/sharing_userInfos.dart';
 import 'package:epsapp/loading.dart';
 import 'package:epsapp/services/auth.dart';
 import 'package:epsapp/services/database.dart';
@@ -83,6 +83,17 @@ class _chatpageState extends State<chatpage> {
   DatabaseChatRoom databaseChatRoom = DatabaseChatRoom();
   Stream Chatrooms;
   String imageUrl="";
+ getUsername() async{
+    Constants.Name=await sharingUserInfo.getuserNameSharedprefences();
+    print(Constants.Name);
+  }
+
+
+
+@override
+  void initState() {
+getUsername();
+  }
 
   @override
 

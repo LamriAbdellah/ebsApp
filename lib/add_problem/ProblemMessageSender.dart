@@ -13,6 +13,7 @@ class MessageSender{
         "time":DateTime.now().millisecondsSinceEpoch,
        "time/h/m":DateTime.now().hour.toString()+":"+DateTime.now().minute.toString(),
        "isSeen":false,
+       "type":0,
 
       };
 
@@ -24,6 +25,7 @@ class MessageSender{
        "time":DateTime.now().millisecondsSinceEpoch,
        "time/h/m":DateTime.now().hour.toString()+":"+DateTime.now().minute.toString(),
        "isSeen":false,
+       "type":0,
 
      };
 
@@ -34,6 +36,7 @@ class MessageSender{
        "time":DateTime.now().millisecondsSinceEpoch,
        "time/h/m":DateTime.now().hour.toString()+":"+DateTime.now().minute.toString(),
        "isSeen":false,
+       "type":0,
 
      };
 

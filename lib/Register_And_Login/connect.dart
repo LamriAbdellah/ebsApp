@@ -1,5 +1,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:epsapp/Constances/constants.dart';
 import 'package:epsapp/loading.dart';
 import 'package:epsapp/services/auth.dart';
 import 'package:epsapp/services/database.dart';
@@ -170,12 +171,15 @@ class _connecterState extends State<connecter> {
                             SnapchatUserInfo=val;
                            await sharingUserInfo.saveuserUserNameSharedprefences(SnapchatUserInfo.documents[0].data["pseudo"]);
                           });
-                          sharingUserInfo.saveuserUserEmailSharedprefences(email);
-                          sharingUserInfo.saveuserLoggedInSharedprefences(true);
+                          getUsername() async{
+                            Constants.Name=await sharingUserInfo.getuserNameSharedprefences();
+                            print(Constants.Name);
+                          }
 
+                          await sharingUserInfo.saveuserUserEmailSharedprefences(email);
+                         await sharingUserInfo.saveuserLoggedInSharedprefences(true);
 
                           dynamic result = await _auth.singIn(email, password);
-
                           setState(() { loading = false;
                           eroor=result;
                           sharingUserInfo.saveuserLoggedInSharedprefences(false);
