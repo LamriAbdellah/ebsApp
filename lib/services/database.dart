@@ -144,4 +144,14 @@ class DatabaseFonctions {
     return  await Firestore.instance.collection("students").where("pseudo",isEqualTo: Name)
         .getDocuments();
   }
+  Future<UserVideoCall> getWholeUserByName (String pseudo ) async {
+QuerySnapshot UserSnapShoot;
+    await Firestore.instance.collection("students").where("pseudo",isEqualTo:pseudo)
+        .getDocuments()
+    .then((value){
+     UserSnapShoot=value;
+    });
+UserVideoCall User=UserVideoCall( UserSnapShoot.documents[0].data["uid"],UserSnapShoot.documents[0].data["pseudo"],UserSnapShoot.documents[0].data["imageUrl"]);
+    return  User;
+  }
 }

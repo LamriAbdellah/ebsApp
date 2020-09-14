@@ -1,15 +1,20 @@
 import 'dart:io';
 import 'package:epsapp/Constances/constants.dart';
+import 'package:epsapp/chat/VideCalls/call_utilities.dart';
+import 'package:epsapp/chat/cached_image.dart';
 import 'package:epsapp/chat/imageDisplayer.dart';
+import 'package:epsapp/models/user.dart';
 import 'package:epsapp/services/database.dart';
 import 'package:epsapp/services/storage.dart';
 import 'package:epsapp/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 class messagescreen extends StatefulWidget {
   final String ChatRoomId;
-
-  const messagescreen({Key key, this.ChatRoomId}) : super(key: key);
+final UserVideoCall TheotherUser;
+final UserVideoCall currentUser;
+  const messagescreen({Key key, this.ChatRoomId, this.TheotherUser, this.currentUser}) : super(key: key);
   @override
   _messagescreenState createState() => _messagescreenState();
 }
@@ -128,11 +133,20 @@ databaseChatRoom.getChatRoomMessages(widget.ChatRoomId)
 leading:IconButton(icon: Icon(Icons.arrow_back), onPressed: () { Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
   return Wrapper();
 }));}),
+
         backgroundColor: Color(0xff1E3F63),
         title: Text("${name}"),
         actions: <Widget>[
 
-          IconButton(icon: Icon(Icons.call), onPressed: () {}),
+          IconButton(icon: Icon(Icons.call),  onPressed: () async {
+            await _handleCameraAndMic() ;
+            CallUtils.dial(
+              from: widget.currentUser,
+              to: widget.TheotherUser,
+              context: context,
+            ) ;
+          }
+          ),
           IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
 
         ],
@@ -276,6 +290,11 @@ class MessageTile  extends StatelessWidget {
 
 
 
+Future<void> _handleCameraAndMic() async {
+  await PermissionHandler().requestPermissions(
+    [PermissionGroup.camera, PermissionGroup.microphone],
+  );
+}
 
 
 

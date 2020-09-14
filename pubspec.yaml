@@ -35,6 +35,13 @@ dependencies:
   firebase_storage: ^3.1.6
   intl: ^0.16.1
   firebase_messaging: ^6.0.16
+  cached_network_image: ^2.2.0+1
+  agora_rtc_engine: ^3.0.1-dev.7
+  permission_handler: ^3.0.0
+  flare_flutter: ^2.0.6
+  flare_splash_screen: ^3.0.1
+
+
 
 
 
@@ -56,8 +63,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  #assets:
-   # - assets/téléchargement.png
+  assets:
+    - assets/New File 4 (4).flr
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

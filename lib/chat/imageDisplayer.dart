@@ -11,7 +11,6 @@ class imageDisplayer extends StatefulWidget {
 class _imageDisplayerState extends State<imageDisplayer> {
   @override
   Widget build(BuildContext context) {
-    print(widget.link);
 
     return GestureDetector(
       onTap: (){

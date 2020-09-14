@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:epsapp/Constances/constants.dart';
 import 'package:epsapp/accountSettings/accountSettings.dart';
 import 'package:epsapp/add_problem/NewProblem.dart';
+import 'package:epsapp/chat/VideCalls/respond_service.dart';
 import 'package:epsapp/chat/chatroomUi.dart';
 import 'package:epsapp/chat/messagescreen.dart';
 import 'package:epsapp/shared_prefrences/sharing_userInfos.dart';
@@ -128,31 +129,33 @@ getUsername();
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
+    return PickupLayout(
+      scaffold: Scaffold(
 
-        drawer: NavDrawer(),
-    backgroundColor: Color(0xffFCFAF1),
-    appBar: AppBar(
-    backgroundColor:Color(0xff1E3F63),
-    actions: <Widget>[IconButton(icon: Icon(Icons.search), onPressed:(){
+          drawer: NavDrawer(),
+      backgroundColor: Color(0xffFCFAF1),
+      appBar: AppBar(
+      backgroundColor:Color(0xff1E3F63),
+      actions: <Widget>[IconButton(icon: Icon(Icons.search), onPressed:(){
 
-      showSearch(context: context, delegate: DataSearch());})],
-    title: Text('EBS ',style: TextStyle(fontFamily: 'Lora',fontSize: 28.0,letterSpacing: 2.0),),
-    centerTitle: true,
-    ),
-    body:       ChatRomsList(),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          //Add Problem
-          Icons.add,
+        showSearch(context: context, delegate: DataSearch());})],
+      title: Text('EBS ',style: TextStyle(fontFamily: 'Lora',fontSize: 28.0,letterSpacing: 2.0),),
+      centerTitle: true,
+      ),
+      body:       ChatRomsList(),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(
+            //Add Problem
+            Icons.add,
 
-          size: 30,
+            size: 30,
+          ),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return new_problm();
+            }));
+          },
         ),
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return new_problm();
-          }));
-        },
       ),
     );
   }

@@ -27,3 +27,10 @@ final String email;
  }[key];
 
 }
+class UserVideoCall{
+ final String uid;
+ final String pseudo ;
+ final String imageUrl;
+
+  UserVideoCall(this.uid, this.pseudo, this.imageUrl);
+}

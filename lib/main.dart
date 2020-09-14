@@ -1,6 +1,7 @@
 
 import 'package:epsapp/SplashScreen/screen.dart';
 import 'package:epsapp/services/auth.dart';
+import 'package:epsapp/splash.dart';
 import 'package:epsapp/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +25,7 @@ class app extends StatelessWidget {
     return StreamProvider<User>.value(
       value:AuthService().user ,
       child: MaterialApp(
-        home:Wrapper(),
+        home:Splash(),
 //Wrapper(index: 0,),
       ),
     );

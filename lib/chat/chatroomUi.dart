@@ -1,5 +1,7 @@
+import 'package:epsapp/Constances/constants.dart';
 import 'package:epsapp/chat/messagescreen.dart';
 import 'package:epsapp/home/Avatarimage.dart';
+import 'package:epsapp/models/user.dart';
 import 'package:epsapp/services/database.dart';
 import 'package:flutter/material.dart';
 
@@ -39,13 +41,15 @@ class _ChatRoomUiState extends State<ChatRoomUi> {
 
           return (snapshot.hasData) ? GestureDetector(
 
-            onTap: (){
+            onTap: () async{
+           UserVideoCall otherUser=  await DatabaseFonctions().getWholeUserByName(widget.UserName);
+           UserVideoCall CurrentUser = await DatabaseFonctions().getWholeUserByName(Constants.Name);
 
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          messagescreen(ChatRoomId: widget.ChatRoomId,)));
+                          messagescreen(ChatRoomId: widget.ChatRoomId,currentUser: CurrentUser,TheotherUser: otherUser,)));
 
             },
 
@@ -77,11 +81,15 @@ class _ChatRoomUiState extends State<ChatRoomUi> {
                             SizedBox(height: 5.0,),
                             Container(
                               width: MediaQuery.of(context).size.width*0.45,
-                              child: Text("${snapshot.data.documents[snapshot.data.documents.length-1].data["message"]}",
+                              child: snapshot.data.documents[snapshot.data.documents.length-1].data["type"] == 0 ? Text("${snapshot.data.documents[snapshot.data.documents.length-1].data["message"]}",
                               style: TextStyle(
                                 color: Colors.blueGrey,fontWeight: isSeen  ? FontWeight.w600 : FontWeight.bold  ,
                               ),
-                              overflow: TextOverflow.ellipsis,),
+                              overflow: TextOverflow.ellipsis,)
+                              : Text("you have received an image",style: TextStyle(
+                                color: Colors.blueGrey,fontWeight: isSeen  ? FontWeight.w600 : FontWeight.bold  ,
+                              ),
+                                overflow: TextOverflow.ellipsis,),
                             )
                           ],
                         ),
@@ -98,13 +106,15 @@ class _ChatRoomUiState extends State<ChatRoomUi> {
               ),
 
           ) : GestureDetector(
-            onTap: (){
+            onTap: () async{
+              UserVideoCall otherUser=  await DatabaseFonctions().getWholeUserByName(widget.UserName);
+              UserVideoCall CurrentUser = await DatabaseFonctions().getWholeUserByName(Constants.Name);
 
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          messagescreen(ChatRoomId: widget.ChatRoomId,)));
+                          messagescreen(ChatRoomId: widget.ChatRoomId,currentUser: CurrentUser,TheotherUser: otherUser,)));
 
             },
             child: Container(
