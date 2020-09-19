@@ -28,7 +28,7 @@ dependencies:
   firebase_auth: ^0.14.0+5
   cloud_firestore: ^0.12.9+4
   provider : ^3.1.0
-  flutter_spinkit: "^4.0.0"
+  flutter_spinkit: ^4.0.0
   shared_preferences: ^0.5.7+3
   shimmer: ^1.1.1
   image_picker: ^0.6.7+4
@@ -40,6 +40,9 @@ dependencies:
   permission_handler: ^3.0.0
   flare_flutter: ^2.0.6
   flare_splash_screen: ^3.0.1
+
+
+
 
 
 

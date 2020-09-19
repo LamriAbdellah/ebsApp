@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:epsapp/Constances/constants.dart';
 import 'package:epsapp/chat/VideCalls/call_utilities.dart';
-import 'package:epsapp/chat/cached_image.dart';
 import 'package:epsapp/chat/imageDisplayer.dart';
 import 'package:epsapp/models/user.dart';
 import 'package:epsapp/services/database.dart';
@@ -9,6 +8,7 @@ import 'package:epsapp/services/storage.dart';
 import 'package:epsapp/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 class messagescreen extends StatefulWidget {
   final String ChatRoomId;
@@ -46,7 +46,8 @@ class _messagescreenState extends State<messagescreen> {
                 DatabaseChatRoom().MakeMessagesAsSeen(snapshot.data.documents[index].data["message"], widget.ChatRoomId, snapshot.data.documents[index].data["SendBy"]);
               }
 return snapshot.data.documents[index].data["type"]==0 ? MessageTile(message:snapshot.data.documents[index].data["message"],
-    IsSendByMe:snapshot.data.documents[index].data["SendBy"]==Constants.Name
+    IsSendByMe:snapshot.data.documents[index].data["SendBy"]==Constants.Name,
+  time: snapshot.data.documents[index].data["time"].toString(),
 ) :imageDisplayer(link:snapshot.data.documents[index].data["message"],IsSendByMe:snapshot.data.documents[index].data["SendBy"]==Constants.Name);
 
               }
@@ -253,35 +254,53 @@ mini: true,
 class MessageTile  extends StatelessWidget {
   final String message;
   final bool IsSendByMe;
+  final String time;
 
-  const MessageTile({Key key, this.message, this.IsSendByMe}) : super(key: key);
+  const MessageTile({Key key, this.message, this.IsSendByMe, this.time}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-      return Container(
-        padding: EdgeInsets.only(left:IsSendByMe ? 60:10,right:IsSendByMe ? 10:60),
-          margin: EdgeInsets.symmetric(vertical: 8),
-        width: MediaQuery.of(context).size.width,
-        alignment: IsSendByMe ? Alignment.centerRight : Alignment.centerLeft,
-        child: Container(
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left:IsSendByMe ? 60:10,right:IsSendByMe ? 10:60),
+              margin: EdgeInsets.symmetric(vertical: 8),
+            width: MediaQuery.of(context).size.width,
+            alignment: IsSendByMe ? Alignment.centerRight : Alignment.centerLeft,
+            child: Container(
 
-          padding: EdgeInsets.symmetric(horizontal: 24,vertical: 16),
-          decoration: BoxDecoration(
-          borderRadius: IsSendByMe ? BorderRadius.only(
-            topLeft: Radius.circular(23),topRight: Radius.circular(23),
-              bottomLeft: Radius.circular(23)
-          ):
-              BorderRadius.only(
-              topLeft: Radius.circular(23),topRight: Radius.circular(23),
-            bottomRight: Radius.circular(23)
-        ),
-            gradient: LinearGradient(colors: IsSendByMe ?[Colors.grey[350],Colors.grey[350]] :[ Color(0xffBBD0D0),Color(0xffBBD0D0)] ),
+              padding: EdgeInsets.symmetric(horizontal: 24,vertical: 16),
+              decoration: BoxDecoration(
+              borderRadius: IsSendByMe ? BorderRadius.only(
+                topLeft: Radius.circular(23),topRight: Radius.circular(23),
+                  bottomLeft: Radius.circular(23)
+              ):
+                  BorderRadius.only(
+                  topLeft: Radius.circular(23),topRight: Radius.circular(23),
+                bottomRight: Radius.circular(23)
+            ),
+                gradient: LinearGradient(colors: IsSendByMe ?[Colors.grey[350],Colors.grey[350]] :[ Color(0xffBBD0D0),Color(0xffBBD0D0)] ),
+              ),
+              child: Text(message
+              ,style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 15,
+                ),),
+            ),
           ),
-          child: Text(message
-          ,style: TextStyle(
-              color: Colors.black,
-              fontSize: 15,
-            ),),
-        ),
+          Container(
+            child:  IsSendByMe ?Container():Text(
+              DateFormat('dd MMM kk:mm').format(
+                  DateTime.fromMillisecondsSinceEpoch(
+                      int.parse(time))),
+              style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12.0,
+                  fontStyle: FontStyle.italic),
+            ),
+            margin: EdgeInsets.only(left: 5.0, top: 2.0, bottom: 5.0),
+          ),
+        ],
       );
 
 
