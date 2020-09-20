@@ -1,3 +1,6 @@
+import 'package:epsapp/Constances/constants.dart';
+import 'package:epsapp/guide/MainGuideScreen.dart';
+import 'package:epsapp/home/chatpage.dart';
 import 'package:epsapp/loading.dart';
 import 'package:epsapp/screens/guide.dart';
 import 'package:epsapp/screens/module_level.dart';
@@ -184,13 +187,17 @@ class _inscriptionState extends State<inscription> {
                         RaisedButton(onPressed:() async {
                           if (_formKey.currentState.validate()){
 
-                            setState(() => loading = true);
+                            setState(() {
+                              loading = true;});
+                          await sharingUserInfo.saveuserStateSharedprefences("new");
                           await sharingUserInfo.saveuserLoggedInSharedprefences(true);
                             await  sharingUserInfo.saveuserUserNameSharedprefences(pseudo);
                             await sharingUserInfo.saveuserUserEmailSharedprefences(email);
                             dynamic result =await _auth.register(email,password,pseudo,1,1,1,1,1,1,imageUrl);
+
                       //problem de connection ou email forme incorrect
                            setState(() { loading = false;
+                           Constants.UserState="";
                         eroor=result;
                         });
                         };

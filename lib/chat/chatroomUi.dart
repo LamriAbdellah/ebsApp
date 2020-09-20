@@ -69,7 +69,7 @@ class _ChatRoomUiState extends State<ChatRoomUi> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        AvatarChat(AvatarUrl:widget.ImageUrl),
+                        AvatarChat(AvatarUrl:widget.ImageUrl,AvatarName: widget.UserName,),
                         SizedBox(
                           width: 10,
                         ),

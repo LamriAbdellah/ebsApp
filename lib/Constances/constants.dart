@@ -11,6 +11,7 @@ static int algo;
   static String uid;
   static List<String> studentsSearchList=[];
   static List<String> chatroomsearchIds=[];
+  static String UserState;
   
   
 

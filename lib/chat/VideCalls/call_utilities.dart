@@ -27,7 +27,7 @@ class CallUtils {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => CallScreen(call: call),
+            builder: (context) => null//CallScreen(call: call),
           ));
     }
 

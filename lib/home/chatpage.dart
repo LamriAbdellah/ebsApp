@@ -5,10 +5,13 @@ import 'package:epsapp/add_problem/NewProblem.dart';
 import 'package:epsapp/chat/VideCalls/respond_service.dart';
 import 'package:epsapp/chat/chatroomUi.dart';
 import 'package:epsapp/chat/messagescreen.dart';
+import 'package:epsapp/guide/MainGuideScreen.dart';
+import 'package:epsapp/guide/splash.dart';
 import 'package:epsapp/shared_prefrences/sharing_userInfos.dart';
 import 'package:epsapp/loading.dart';
 import 'package:epsapp/services/auth.dart';
 import 'package:epsapp/services/database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 class NavDrawer extends StatelessWidget {
 
@@ -38,7 +41,9 @@ class NavDrawer extends StatelessWidget {
 
               leading: Icon(Icons.input),
               title: Text('Guide',style: TextStyle(fontFamily: 'Lora'),),
-              onTap: () => {},
+              onTap: () {  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return SplashScreen();
+              }));},
             ),
             Divider(),
             ListTile(
@@ -84,15 +89,32 @@ class _chatpageState extends State<chatpage> {
   DatabaseChatRoom databaseChatRoom = DatabaseChatRoom();
   Stream Chatrooms;
   String imageUrl="";
+  FirebaseMessaging firebaseMessaging =FirebaseMessaging();
  getUsername() async{
     Constants.Name=await sharingUserInfo.getuserNameSharedprefences();
     print(Constants.Name);
   }
+  //initlisation des notifications;
+  void registerNotification() {
+    firebaseMessaging.requestNotificationPermissions();
 
-
+    firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
+      return;
+    }, onResume: (Map<String, dynamic> message) {
+      print('onResume: $message');
+      return;
+    }, onLaunch: (Map<String, dynamic> message) {
+      print('onLaunch: $message');
+      return;
+    });
+  }
+getUserState() async{
+  Constants.UserState=await sharingUserInfo.getuserStateSharedprefences();
+}
 
 @override
   void initState() {
+getUserState();
 getUsername();
   }
 
@@ -114,9 +136,8 @@ getUsername();
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index) {
                 var chatroomid = snapshot.data.documents[index].data["chatroomid"].toString();
-                var  username= snapshot.data.documents[index].data["chatroomid"]
+                var  username= chatroomid=="" ?"": snapshot.data.documents[index].data["chatroomid"]
                     .replaceAll("_", "").replaceAll(Constants.Name ?? "" , "");
-
 
                 return ChatRoomUi(UserName:username,ChatRoomId:chatroomid,ImageUrl: imageUrl,) ;
               }
@@ -128,8 +149,8 @@ getUsername();
 
   @override
   Widget build(BuildContext context) {
-
-    return PickupLayout(
+    getUserState();
+    return Constants.UserState=="new" ? SplashScreen(): PickupLayout(
       scaffold: Scaffold(
 
           drawer: NavDrawer(),

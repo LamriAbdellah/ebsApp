@@ -19,6 +19,11 @@ class _accountSettingsState extends State<accountSettings> {
     setState(() => show= !show);
   }
   @override
+  void initState() {
+    getUserLevelModules();
+    super.initState();
+  }
+  @override
   getUserLevelModules(){
     DataGet.getModulesLevel(Constants.Name)
         .then((val){

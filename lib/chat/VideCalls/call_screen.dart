@@ -1,4 +1,4 @@
-
+/*
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 import 'dart:async';
 import 'package:agora_rtc_engine/rtc_engine.dart';
@@ -94,6 +94,7 @@ class _CallScreenState extends State<CallScreen> {
         _infoStrings.add(info);
       });
     }, leaveChannel: (stats) {
+      callMethods.endCall(call: widget.call);
       setState(() {
         _infoStrings.add('onLeaveChannel');
         _users.clear();
@@ -105,6 +106,7 @@ class _CallScreenState extends State<CallScreen> {
         _users.add(uid);
       });
     }, userOffline: (uid, elapsed) {
+      callMethods.endCall(call: widget.call);
       setState(() {
         final info = 'userOffline: $uid';
         _infoStrings.add(info);
@@ -316,3 +318,5 @@ class _CallScreenState extends State<CallScreen> {
     );
   }
 }
+
+ */

@@ -99,25 +99,27 @@ class DatabaseChatRoom{
         
   }
   UpdateChatRoomId(String oldName,String NewName) async{
-  await Firestore.instance.collection("chatrooms")
-    .where("users",arrayContains:oldName).getDocuments()
-        .then((value){
 
-      var newChatRoomId=value.documents[0].data["chatroomid"]
-          .replaceAll(oldName,NewName).toString();
-      Firestore.instance.collection("chatrooms").document(value.documents[0].documentID).updateData({
-        "chatroomid":newChatRoomId,
-      });
+    /*On doit passer par tout les chatrooms prenant le ancien nom et modifier le chatroomId et le ancien nom dans Users
+    par le nouveau
 
-      /* String oldId=chatroomsWithName.documents[0].data["chatroomid"];
-      chatrooms.document(oldId).get().then((value) async{
-        await  chatrooms.document(oldId+NewName).setData(value.data);
-      });
+     */
 
-      */
-
-
+  }
+  //supprimer la convertation
+  DeleteChatRoom(String ChatRoomId) async{
+    await Firestore.instance.collection("chatrooms").document(ChatRoomId).collection("chats").getDocuments().then((value) async {
+      for (DocumentSnapshot doc in value.documents) {
+        doc.reference.delete();
+      }
+      Firestore.instance.collection("chatrooms").document(ChatRoomId).delete();
     });
+
+  }
+  //supprimer des photos dans les conversastions
+  DeleteChatRoomPictures(String ChatRoomId,String PictureId) async{
+    await Firestore.instance.collection("chatrooms").document(ChatRoomId).collection("chats").document(PictureId).delete();
+
 
   }
 }
@@ -136,14 +138,20 @@ class DatabaseFonctions {
     return await  Firestore.instance.collection("students").where("pseudo",isEqualTo: name)
         .getDocuments();
   }
+  // fonction utiliser pour recuprer les niveaux des modules
   getModulesLevel  ( String Name)  async{
     return  await Firestore.instance.collection("students").where("pseudo",isEqualTo: Name)
         .getDocuments();
   }
+  // fonction utiliser pour recuprer le lien de photo de profil
   getImageUrl(String Name) async {
+    String imageUrl;
     return  await Firestore.instance.collection("students").where("pseudo",isEqualTo: Name)
-        .getDocuments();
+        .getDocuments().then((value){
+         return imageUrl=value.documents[0].data["imageUrl"];
+    });
   }
+  //fonction pour recuprer lutilisateur complet
   Future<UserVideoCall> getWholeUserByName (String pseudo ) async {
 QuerySnapshot UserSnapShoot;
     await Firestore.instance.collection("students").where("pseudo",isEqualTo:pseudo)

@@ -5,7 +5,6 @@ import 'package:epsapp/loading.dart';
 import 'package:epsapp/models/user.dart';
 import 'package:epsapp/services/database.dart';
 import 'package:epsapp/services/storage.dart';
-import 'package:epsapp/shared_prefrences/sharing_userInfos.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -223,9 +222,9 @@ style: TextStyle(fontFamily: 'Moon',fontWeight:FontWeight.bold),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 18),
                       child: FlatButton.icon(onPressed: () async {
-                         /*datachatroom.UpdateChatRoomId(Constants.Name,pseudo);
+                         datachatroom.UpdateChatRoomId(Constants.Name,pseudo);
 
-                          */
+
                           await DatabaseServices(uid:user.uid).updateUserData(pseudo ?? user.pseudo,user.email, algo ?? user.algo,analyse ?? user.analyse,
                               algebre ?? user.algebre,elect ?? user.elect,mecanq ?? user.mecanq,poo ?? user.poo,imageUrl ?? user.imageUrl);
 /*Constants.Name=pseudo ?? user.pseudo;

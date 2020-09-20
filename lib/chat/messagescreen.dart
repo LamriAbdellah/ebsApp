@@ -42,13 +42,16 @@ class _messagescreenState extends State<messagescreen> {
 
               itemCount: snapshot.data.documents.length,
               itemBuilder:(context,index){
+
               if (snapshot.data.documents[index].data["SendBy"]!=Constants.Name){
                 DatabaseChatRoom().MakeMessagesAsSeen(snapshot.data.documents[index].data["message"], widget.ChatRoomId, snapshot.data.documents[index].data["SendBy"]);
               }
 return snapshot.data.documents[index].data["type"]==0 ? MessageTile(message:snapshot.data.documents[index].data["message"],
     IsSendByMe:snapshot.data.documents[index].data["SendBy"]==Constants.Name,
   time: snapshot.data.documents[index].data["time"].toString(),
-) :imageDisplayer(link:snapshot.data.documents[index].data["message"],IsSendByMe:snapshot.data.documents[index].data["SendBy"]==Constants.Name);
+) :imageDisplayer(link:snapshot.data.documents[index].data["message"],IsSendByMe:snapshot.data.documents[index].data["SendBy"]==Constants.Name,PictureId:snapshot.data.documents[index].documentID,ChatRoomId: widget.ChatRoomId
+
+  ,);
 
               }
           )
@@ -60,8 +63,6 @@ return snapshot.data.documents[index].data["type"]==0 ? MessageTile(message:snap
     );
 
   }
-
-
 
 
 
@@ -148,7 +149,12 @@ leading:IconButton(icon: Icon(Icons.arrow_back), onPressed: () { Navigator.pushR
             ) ;
           }
           ),
-          IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+          IconButton(icon: Icon(Icons.delete), onPressed: () {
+            databaseChatRoom.DeleteChatRoom(widget.ChatRoomId);
+             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+              return Wrapper();
+            }));
+          }),
 
         ],
       ),
@@ -218,6 +224,7 @@ leading:IconButton(icon: Icon(Icons.arrow_back), onPressed: () { Navigator.pushR
                           ),
                           IconButton(icon: (Icon(Icons.camera_enhance)),
                             onPressed: () async {
+
                               image = await ImagePicker.pickImage(source: ImageSource.camera);
                               imageUrl=await StorageService().UploadPictures(image);
                               SendMessage(1);},
