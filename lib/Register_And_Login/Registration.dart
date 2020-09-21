@@ -1,9 +1,5 @@
 import 'package:epsapp/Constances/constants.dart';
-import 'package:epsapp/guide/MainGuideScreen.dart';
-import 'package:epsapp/home/chatpage.dart';
 import 'package:epsapp/loading.dart';
-import 'package:epsapp/screens/guide.dart';
-import 'package:epsapp/screens/module_level.dart';
 import 'package:epsapp/services/auth.dart';
 import 'package:epsapp/shared_prefrences/sharing_userInfos.dart';
 import 'package:flutter/material.dart';
@@ -193,7 +189,7 @@ class _inscriptionState extends State<inscription> {
                           await sharingUserInfo.saveuserLoggedInSharedprefences(true);
                             await  sharingUserInfo.saveuserUserNameSharedprefences(pseudo);
                             await sharingUserInfo.saveuserUserEmailSharedprefences(email);
-                            dynamic result =await _auth.register(email,password,pseudo,1,1,1,1,1,1,imageUrl);
+                            dynamic result =await _auth.register(email,password,pseudo,1,1,1,1,1,1,imageUrl,"","");
 
                       //problem de connection ou email forme incorrect
                            setState(() { loading = false;

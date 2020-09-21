@@ -1,7 +1,5 @@
 import 'dart:io';
-
-import 'package:epsapp/guide/MainGuideScreen.dart';
-import 'package:epsapp/wrapper.dart';
+import 'package:epsapp/guide/intro_page.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 
@@ -15,18 +13,19 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 4), () {
+    Future.delayed(Duration(seconds: 8), () {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => MainScreen(),
+            builder: (context) => IntroPage(Case: 0,),
           ));
     });
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FlareActor("assets/New File 4 (4).flr", alignment:Alignment.center, fit:BoxFit.contain, animation:"Untitled"),
+      body: Center(child: Image.asset("assets/20200921_214857.gif"))
+      // FlareActor("assets/New File 4 (4).flr", alignment:Alignment.center, fit:BoxFit.contain, animation:"Untitled"),
     );
   }
 }

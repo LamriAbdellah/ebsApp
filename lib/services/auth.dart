@@ -72,7 +72,7 @@ class AuthService {
       int elect,
       int mecanq,
       int poo,
-      String imageUrl) async {
+      String imageUrl,String pushToken,String ChattingWith) async {
     try {
       //tester si lutilisateur exist deja ou non
       int number;
@@ -95,7 +95,7 @@ if (number==0) {
       elect,
       mecanq,
       poo,
-      imageUrl);
+      imageUrl,pushToken,ChattingWith);
 
   return _userfromfirebase(user);
 }

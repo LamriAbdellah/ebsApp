@@ -20,6 +20,7 @@ class studentsListMaker extends StatefulWidget {
 class _studentsListMakerState extends State<studentsListMaker> {
   QuerySnapshot SnapchatUserInfo;
   final DatabaseChatRoom ChatRoomCreate =DatabaseChatRoom();
+
   StartChatRoom(String User2Name){
 
     String chatroomId=getChatRoomId(User2Name,Constants.Name);
@@ -38,6 +39,7 @@ ChatRoomCreate.createChatRoom(chatroomId,chatroomMap);
  
   @override
   Widget build(BuildContext context) {
+
     final students = Provider.of<List<student>>(context) ?? [];
 final user =Provider.of<User>(context);
       return  StreamBuilder<UserData>(
@@ -55,8 +57,10 @@ itemBuilder: (context,index)
                   ),
                   Spacer(),
                   
-                  GestureDetector(onTap: () {
-                    MessageSender().SendProblem(widget.problem, getChatRoomId(students[index].name,Constants.Name));
+                  GestureDetector(onTap: ()  async {
+                    UserVideoCall otherUser=  await DatabaseFonctions().getWholeUserByName(students[index].name);
+                    Firestore.instance.collection("students").document(user.uid).updateData({'ChattingWith':otherUser.uid});
+                    MessageSender().SendProblem(widget.problem, getChatRoomId(students[index].name,Constants.Name),students[index].name);
 StartChatRoom(students[index].name);
                   },
                     child: Padding(

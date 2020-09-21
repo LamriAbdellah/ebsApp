@@ -143,7 +143,7 @@ final user =Provider.of<User>(context);
                           setState(() => loading = true);
 
                           await DatabaseServices(uid:user.uid).updateUserData(user.pseudo ?? user.pseudo,user.email, algo ?? user.algo,analyse ?? user.analyse,
-                            algebre ?? user.algebre,elect ?? user.elect,mecanq ?? user.mecanq,poo ?? user.poo,user.imageUrl);
+                            algebre ?? user.algebre,elect ?? user.elect,mecanq ?? user.mecanq,poo ?? user.poo,user.imageUrl,user.pushToken,user.ChattingWith);
 
                           Navigator.pop(context, MaterialPageRoute(builder: (context) {
                             return null;

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:epsapp/Constances/constants.dart';
 import 'package:epsapp/accountSettings/accountSettings.dart';
@@ -5,14 +8,16 @@ import 'package:epsapp/add_problem/NewProblem.dart';
 import 'package:epsapp/chat/VideCalls/respond_service.dart';
 import 'package:epsapp/chat/chatroomUi.dart';
 import 'package:epsapp/chat/messagescreen.dart';
-import 'package:epsapp/guide/MainGuideScreen.dart';
+import 'package:epsapp/guide/intro_page.dart';
 import 'package:epsapp/guide/splash.dart';
+import 'package:epsapp/models/user.dart';
 import 'package:epsapp/shared_prefrences/sharing_userInfos.dart';
 import 'package:epsapp/loading.dart';
 import 'package:epsapp/services/auth.dart';
 import 'package:epsapp/services/database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 class NavDrawer extends StatelessWidget {
 
   @override
@@ -42,7 +47,7 @@ class NavDrawer extends StatelessWidget {
               leading: Icon(Icons.input),
               title: Text('Guide',style: TextStyle(fontFamily: 'Lora'),),
               onTap: () {  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return SplashScreen();
+                return IntroPage(Case: 1,);
               }));},
             ),
             Divider(),
@@ -90,15 +95,18 @@ class _chatpageState extends State<chatpage> {
   Stream Chatrooms;
   String imageUrl="";
   FirebaseMessaging firebaseMessaging =FirebaseMessaging();
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
  getUsername() async{
     Constants.Name=await sharingUserInfo.getuserNameSharedprefences();
     print(Constants.Name);
   }
   //initlisation des notifications;
-  void registerNotification() {
+  Future<void> registerNotification() async {
     firebaseMessaging.requestNotificationPermissions();
 
     firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
+      showNotification(message['notification']);
       return;
     }, onResume: (Map<String, dynamic> message) {
       print('onResume: $message');
@@ -107,13 +115,63 @@ class _chatpageState extends State<chatpage> {
       print('onLaunch: $message');
       return;
     });
+    UserVideoCall User= await DatabaseFonctions().getWholeUserByName(Constants.Name);
+    firebaseMessaging.getToken().then((token) {
+      print('token: $token');
+      Firestore.instance
+          .collection('students')
+          .document(User.uid)
+          .updateData({'pushToken': token});
+    }).catchError((err) {
+    });
   }
+  void configLocalNotification() {
+    var initializationSettingsAndroid =
+    new AndroidInitializationSettings('app_icon');
+    var initializationSettingsIOS = new IOSInitializationSettings();
+    var initializationSettings = new InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  }
+
+  void showNotification(message) async {
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+      Platform.isAndroid
+          ? 'com.dfa.flutterchatdemo'
+          : 'com.duytq.flutterchatdemo',
+      'Flutter chat demo',
+      'your channel description',
+      playSound: true,
+      enableVibration: true,
+      importance: Importance.Max,
+      priority: Priority.High,
+    );
+    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+    var platformChannelSpecifics = new NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+
+    print(message);
+//    print(message['body'].toString());
+//    print(json.encode(message));
+
+    await flutterLocalNotificationsPlugin.show(0, message['title'].toString(),
+        message['body'].toString(), platformChannelSpecifics,
+        payload: json.encode(message));
+
+//    await flutterLocalNotificationsPlugin.show(
+//        0, 'plain title', 'plain body', platformChannelSpecifics,
+//        payload: 'item x');
+  }
+
+
 getUserState() async{
   Constants.UserState=await sharingUserInfo.getuserStateSharedprefences();
 }
 
 @override
   void initState() {
+  registerNotification();
+  configLocalNotification();
 getUserState();
 getUsername();
   }
@@ -131,12 +189,13 @@ getUsername();
     return StreamBuilder(
         stream: Chatrooms,
         builder: (context,snapshot) {
+          getUsername();
           GetStudentList().GetChatRooms();
           return (snapshot.hasData)&&(Constants.Name!=null) ? ListView.builder(
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index) {
                 var chatroomid = snapshot.data.documents[index].data["chatroomid"].toString();
-                var  username= chatroomid=="" ?"": snapshot.data.documents[index].data["chatroomid"]
+                var  username=  snapshot.data.documents[index].data["chatroomid"]
                     .replaceAll("_", "").replaceAll(Constants.Name ?? "" , "");
 
                 return ChatRoomUi(UserName:username,ChatRoomId:chatroomid,ImageUrl: imageUrl,) ;
@@ -149,7 +208,7 @@ getUsername();
 
   @override
   Widget build(BuildContext context) {
-    getUserState();
+      getUserState();
     return Constants.UserState=="new" ? SplashScreen(): PickupLayout(
       scaffold: Scaffold(
 

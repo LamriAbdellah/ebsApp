@@ -11,7 +11,7 @@ class DatabaseServices{
   final CollectionReference students = Firestore.instance.collection("students");
   //avoir la liste des etudients qui ont un niv > sup que lutilisateur
   final Query studentsSearch =  Firestore.instance.collection("students").where(selectedModule.selected_module.toLowerCase(),isGreaterThan:Constants.Module_level);
-  Future updateUserData (String pseudo,String email,int algo,int analyse,int algebre,int elect,int mecanq,int poo, String imageUrl) async{
+  Future updateUserData (String pseudo,String email,int algo,int analyse,int algebre,int elect,int mecanq,int poo, String imageUrl,String pushToken,String ChattingWith) async{
     int number;
     await students.where("pseudo",isEqualTo: pseudo).getDocuments().then((value){
       number=value.documents.length;
@@ -28,6 +28,8 @@ class DatabaseServices{
       'poo':poo,
       'email':email,
       'imageUrl':imageUrl,
+      'pushToken':pushToken,
+      'ChattingWith':ChattingWith,
     }
     );
   }
@@ -44,7 +46,7 @@ class DatabaseServices{
   UserData _userDatafromSnapchat(DocumentSnapshot snapshot){
     return UserData(
         uid,snapshot.data['pseudo'],snapshot.data['algo'],snapshot.data['analyse'],snapshot.data['algebre'],snapshot.data['elect'],
-        snapshot.data['mecanq'],snapshot.data['poo'],snapshot.data['email'],snapshot.data['imageUrl']
+        snapshot.data['mecanq'],snapshot.data['poo'],snapshot.data['email'],snapshot.data['imageUrl'],snapshot.data['pushToken'],snapshot.data['ChattingWith']
     );
 
   }
@@ -142,6 +144,10 @@ class DatabaseFonctions {
   getModulesLevel  ( String Name)  async{
     return  await Firestore.instance.collection("students").where("pseudo",isEqualTo: Name)
         .getDocuments();
+  }
+  getUserIdbyName(String Name) async{
+      await Firestore.instance.collection("students").where("pseudo",isEqualTo: Name).getDocuments();
+
   }
   // fonction utiliser pour recuprer le lien de photo de profil
   getImageUrl(String Name) async {

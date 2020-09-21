@@ -26,6 +26,9 @@ class _WrapperState extends State<Wrapper> {
   Future getUserName() async {
     Constants.Name=await sharingUserInfo.getuserNameSharedprefences();
   }
+  Future getUserState() async{
+    Constants.UserState=await sharingUserInfo.getuserStateSharedprefences();
+  }
 
   @override
   Widget build(BuildContext context) {

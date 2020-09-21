@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:epsapp/Constances/constants.dart';
 import 'package:epsapp/chat/messagescreen.dart';
 import 'package:epsapp/home/Avatarimage.dart';
@@ -109,7 +110,7 @@ class _ChatRoomUiState extends State<ChatRoomUi> {
             onTap: () async{
               UserVideoCall otherUser=  await DatabaseFonctions().getWholeUserByName(widget.UserName);
               UserVideoCall CurrentUser = await DatabaseFonctions().getWholeUserByName(Constants.Name);
-
+  Firestore.instance.collection("students").document(CurrentUser.uid).updateData({'ChattingWith':otherUser.uid});
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(

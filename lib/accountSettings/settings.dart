@@ -226,7 +226,7 @@ style: TextStyle(fontFamily: 'Moon',fontWeight:FontWeight.bold),
 
 
                           await DatabaseServices(uid:user.uid).updateUserData(pseudo ?? user.pseudo,user.email, algo ?? user.algo,analyse ?? user.analyse,
-                              algebre ?? user.algebre,elect ?? user.elect,mecanq ?? user.mecanq,poo ?? user.poo,imageUrl ?? user.imageUrl);
+                              algebre ?? user.algebre,elect ?? user.elect,mecanq ?? user.mecanq,poo ?? user.poo,imageUrl ?? user.imageUrl,user.pushToken,user.ChattingWith);
 /*Constants.Name=pseudo ?? user.pseudo;
 sharingUserInfo.saveuserUserNameSharedprefences(pseudo ?? user.pseudo);
 

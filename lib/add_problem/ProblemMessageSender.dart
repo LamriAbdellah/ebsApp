@@ -5,7 +5,7 @@ import 'package:epsapp/services/database.dart';
 class MessageSender{
   DatabaseChatRoom databaseChatRoom = DatabaseChatRoom();
    Problem problem;
-  SendProblem(Problem problem,String ChatRoomId) {
+  SendProblem(Problem problem,String ChatRoomId,String SendTo) {
     if (problem.desc.isNotEmpty) {
      Map<String,dynamic> ProblemModuleMap = {
         "message":"Module:"+ problem.module,
@@ -14,6 +14,7 @@ class MessageSender{
        "time/h/m":DateTime.now().hour.toString()+":"+DateTime.now().minute.toString(),
        "isSeen":false,
        "type":0,
+       "SendTo":SendTo,
 
       };
 
@@ -26,6 +27,7 @@ class MessageSender{
        "time/h/m":DateTime.now().hour.toString()+":"+DateTime.now().minute.toString(),
        "isSeen":false,
        "type":0,
+       "SendTo":SendTo,
 
      };
 
@@ -37,7 +39,7 @@ class MessageSender{
        "time/h/m":DateTime.now().hour.toString()+":"+DateTime.now().minute.toString(),
        "isSeen":false,
        "type":0,
-
+       "SendTo":SendTo,
      };
 
      databaseChatRoom.addChatRoomMessages(ChatRoomId, ProblemDetilsMap);

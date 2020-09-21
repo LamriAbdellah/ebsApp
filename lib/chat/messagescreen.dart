@@ -85,6 +85,7 @@ return snapshot.data.documents[index].data["type"]==0 ? MessageTile(message:snap
               .toString(),
           "isSeen": false,
 "type":0,
+          "SendTo":widget.TheotherUser.pseudo,
 
         };
 
@@ -108,6 +109,7 @@ return snapshot.data.documents[index].data["type"]==0 ? MessageTile(message:snap
             .toString(),
         "isSeen": false,
         "type":1,
+        "SendTo":widget.TheotherUser.pseudo,
 
       };
       databaseChatRoom.addChatRoomMessages(widget.ChatRoomId, MessageMap);
