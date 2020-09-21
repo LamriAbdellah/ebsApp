@@ -26,13 +26,6 @@ class RespondScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 50),
-         /*   CachedImage(
-              call.callerPic,
-              isRound: true,
-              radius: 180,
-            ),
-
-          */
             SizedBox(height: 15),
             Text(
               call.callerName,
