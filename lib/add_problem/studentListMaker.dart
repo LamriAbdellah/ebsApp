@@ -21,7 +21,9 @@ class _studentsListMakerState extends State<studentsListMaker> {
   QuerySnapshot SnapchatUserInfo;
   final DatabaseChatRoom ChatRoomCreate =DatabaseChatRoom();
 
-  StartChatRoom(String User2Name){
+  StartChatRoom(String User2Name)async{
+    UserVideoCall otherUser=  await DatabaseFonctions().getWholeUserByName(User2Name);
+    UserVideoCall CurrentUser = await DatabaseFonctions().getWholeUserByName(Constants.Name);
 
     String chatroomId=getChatRoomId(User2Name,Constants.Name);
     
@@ -33,7 +35,7 @@ class _studentsListMakerState extends State<studentsListMaker> {
 
     };
 ChatRoomCreate.createChatRoom(chatroomId,chatroomMap);
-    Navigator.push(context,MaterialPageRoute(builder: (context) => messagescreen(ChatRoomId: chatroomId,)));
+    Navigator.push(context,MaterialPageRoute(builder: (context) => messagescreen(ChatRoomId: chatroomId,TheotherUser: otherUser,currentUser: CurrentUser,)));
   }
 
  
