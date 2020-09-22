@@ -18,7 +18,7 @@ exports.sendNotification = functions.firestore
     admin
       .firestore()
       .collection('students')
-      .where('pseudo', '==', SendTo)
+      .where('pseudo', '==', idTo)
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(userTo => {
@@ -28,7 +28,7 @@ exports.sendNotification = functions.firestore
             admin
               .firestore()
               .collection('students')
-              .where('pseudo', '==', SendBy)
+              .where('pseudo', '==', idFrom)
               .get()
               .then(querySnapshot2 => {
                 querySnapshot2.forEach(userFrom => {

@@ -22,7 +22,7 @@ class NavDrawer extends StatelessWidget {
 
   @override
   final  AuthService _auth = AuthService();
-
+  FirebaseMessaging firebaseMessaging =FirebaseMessaging();
 
   Widget build(BuildContext context) {
 
@@ -68,6 +68,12 @@ class NavDrawer extends StatelessWidget {
               leading: Icon(Icons.power_settings_new),
               title: Text('Se déconnecter',style: TextStyle(fontFamily: 'Lora'),),
               onTap: () async {
+                UserVideoCall User= await DatabaseFonctions().getWholeUserByName(Constants.Name);
+                Firestore.instance
+                    .collection('students')
+                    .document(User.uid)
+                    .updateData({'pushToken': ""});
+                firebaseMessaging.deleteInstanceID();
 
                 dynamic result = await _auth.SingOut();
                 if (result==null){Loading();}
@@ -107,6 +113,8 @@ class _chatpageState extends State<chatpage> {
 
     firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
       showNotification(message['notification']);
+
+      print("onMessage: $message");
       return;
     }, onResume: (Map<String, dynamic> message) {
       print('onResume: $message');
@@ -127,20 +135,30 @@ class _chatpageState extends State<chatpage> {
   }
   void configLocalNotification() {
     var initializationSettingsAndroid =
-    new AndroidInitializationSettings('app_icon');
+    new AndroidInitializationSettings('@mipmap/ic_launcher');
     var initializationSettingsIOS = new IOSInitializationSettings();
     var initializationSettings = new InitializationSettings(
         initializationSettingsAndroid, initializationSettingsIOS);
-    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
+  }
+  Future onSelectNotification(String payload) async {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return new AlertDialog(
+          title: Text("PayLoad"),
+          content: Text("Payload : $payload"),
+        );
+      },
+    );
   }
 
   void showNotification(message) async {
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-      Platform.isAndroid
-          ? 'com.dfa.flutterchatdemo'
-          : 'com.duytq.flutterchatdemo',
-      'Flutter chat demo',
-      'your channel description',
+      'com.example.ebsapp',
+      'ebs app',
+      'your ebs app',
       playSound: true,
       enableVibration: true,
       importance: Importance.Max,
