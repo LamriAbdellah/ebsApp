@@ -1,4 +1,4 @@
-/*
+
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 import 'dart:async';
 import 'package:agora_rtc_engine/rtc_engine.dart';
@@ -310,7 +310,7 @@ class _CallScreenState extends State<CallScreen> {
         child: Stack(
           children: <Widget>[
             _viewRows(),
-            // _panel(),
+             _panel(),
             _toolbar(),
           ],
         ),
@@ -319,4 +319,3 @@ class _CallScreenState extends State<CallScreen> {
   }
 }
 
- */
