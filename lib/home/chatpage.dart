@@ -186,8 +186,10 @@ getUserState() async{
   Constants.UserState=await sharingUserInfo.getuserStateSharedprefences();
 }
 
+
 @override
   void initState() {
+
   registerNotification();
   configLocalNotification();
 getUserState();

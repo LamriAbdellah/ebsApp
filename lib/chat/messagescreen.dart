@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:epsapp/Constances/constants.dart';
 import 'package:epsapp/chat/VideCalls/call_utilities.dart';
 import 'package:epsapp/chat/imageDisplayer.dart';
@@ -115,6 +116,13 @@ return snapshot.data.documents[index].data["type"]==0 ? MessageTile(message:snap
       databaseChatRoom.addChatRoomMessages(widget.ChatRoomId, MessageMap);
     }}
   }
+  UpdateChattingWith()async{
+    UserVideoCall User= await DatabaseFonctions().getWholeUserByName(Constants.Name);
+    Firestore.instance
+        .collection('students')
+        .document(User.uid)
+        .updateData({'ChattingWith':""});
+  }
 @override
   void initState() {
     name=widget.ChatRoomId.replaceAll("_", "").replaceAll(Constants.Name ?? "" , "");
@@ -134,7 +142,9 @@ databaseChatRoom.getChatRoomMessages(widget.ChatRoomId)
 
       extendBodyBehindAppBar:true,
       appBar: AppBar(
-leading:IconButton(icon: Icon(Icons.arrow_back), onPressed: () { Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+leading:IconButton(icon: Icon(Icons.arrow_back), onPressed: () {
+  UpdateChattingWith();
+  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
   return Wrapper();
 }));}),
 
