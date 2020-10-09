@@ -10,7 +10,7 @@ class DatabaseServices{
   DatabaseServices({this.uid});
   final CollectionReference students = Firestore.instance.collection("students");
   //avoir la liste des etudients qui ont un niv > sup que lutilisateur
-  final Query studentsSearch =  Firestore.instance.collection("students").where(selectedModule.selected_module.toLowerCase(),isGreaterThan:Constants.Module_level);
+  final Query studentsSearch =  Firestore.instance.collection("students").where(selectedModule.selected_module,isGreaterThan:Constants.Module_level);
   Future updateUserData (String pseudo,String email,int algo,int analyse,int algebre,int elect,int mecanq,int poo, String imageUrl,String pushToken,String ChattingWith) async{
     int number;
     await students.where("pseudo",isEqualTo: pseudo).getDocuments().then((value){
@@ -63,6 +63,9 @@ class DatabaseServices{
         .map(_userDatafromSnapchat);
   }
 
+  GetStudentsProblems(int ModuleLevel)async{
+    return Firestore.instance.collection("students").where(selectedModule.selected_module,isGreaterThan:ModuleLevel).snapshots();
+  }
 }
 class DatabaseChatRoom{
   //cree la collection des chatroom et ajouter un chat room chaque fois
@@ -157,6 +160,7 @@ class DatabaseFonctions {
          return imageUrl=value.documents[0].data["imageUrl"];
     });
   }
+
   //fonction pour recuprer lutilisateur complet
   Future<UserVideoCall> getWholeUserByName (String pseudo ) async {
 QuerySnapshot UserSnapShoot;

@@ -1,4 +1,4 @@
 class selectedModule {
-  static String selected_module="Algo" ;
+  static String selected_module ;
 
 }

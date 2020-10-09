@@ -171,8 +171,6 @@ passSelctedModule(selecteditem);
                         },
                       ),
                     ),
-
-
                   ],
                 ),
               )
@@ -186,6 +184,19 @@ passSelctedModule(selecteditem);
 
 
 passSelctedModule(String module){
+  switch(module){
+    case "Algo":{ selectedModule.selected_module="algo";};
+    break;
+  case "Analyse":{ selectedModule.selected_module="analyse";};
+  break;
+  case "Algebre":{ selectedModule.selected_module="analyse";};
+  break;
+  case "Electronique":{ selectedModule.selected_module="elect";};
+  break;
+  case"Mecanique":{ selectedModule.selected_module="mecanq";};
+  break;
+  case "POO":{ selectedModule.selected_module="poo";};
+  break;
+  }
 
-  selectedModule.selected_module=module;
 }

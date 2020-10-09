@@ -105,7 +105,6 @@ class _chatpageState extends State<chatpage> {
   FlutterLocalNotificationsPlugin();
  getUsername() async{
     Constants.Name=await sharingUserInfo.getuserNameSharedprefences();
-    print(Constants.Name);
   }
   //initlisation des notifications;
   Future<void> registerNotification() async {

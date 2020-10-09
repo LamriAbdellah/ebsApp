@@ -1,8 +1,9 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:epsapp/Constances/selected_module.dart';
 import 'package:epsapp/add_problem/ProblemMessageSender.dart';
 import 'package:epsapp/chat/messagescreen.dart';
-import 'package:epsapp/models/studentSearch.dart';
+import 'package:epsapp/loading.dart';
+
 import 'package:epsapp/models/user.dart';
 import 'package:epsapp/services/database.dart';
 import 'package:epsapp/Constances/constants.dart';
@@ -20,6 +21,7 @@ class studentsListMaker extends StatefulWidget {
 class _studentsListMakerState extends State<studentsListMaker> {
   QuerySnapshot SnapchatUserInfo;
   final DatabaseChatRoom ChatRoomCreate =DatabaseChatRoom();
+  Stream StudentsSearch;
 
   StartChatRoom(String User2Name)async{
     UserVideoCall otherUser=  await DatabaseFonctions().getWholeUserByName(User2Name);
@@ -30,40 +32,41 @@ class _studentsListMakerState extends State<studentsListMaker> {
     List<String> users =[User2Name,Constants.Name];
     Map<String,dynamic> chatroomMap ={
       "users":users,
-
       "chatroomid":chatroomId,
-
     };
 ChatRoomCreate.createChatRoom(chatroomId,chatroomMap);
     Navigator.push(context,MaterialPageRoute(builder: (context) => messagescreen(ChatRoomId: chatroomId,TheotherUser: otherUser,currentUser: CurrentUser,)));
   }
 
- 
   @override
   Widget build(BuildContext context) {
 
-    final students = Provider.of<List<student>>(context) ?? [];
-final user =Provider.of<User>(context);
-      return  StreamBuilder<UserData>(
-        stream:DatabaseServices(uid:user.uid).user,
+    UserData user=Provider.of<UserData>(context);
+DatabaseServices().GetStudentsProblems(user.getProp(selectedModule.selected_module)).then((v){
+  setState(() {
+    StudentsSearch=v;
+  });
+
+});
+      return  StreamBuilder(
+        stream:StudentsSearch,
         builder: (context, snapshot) {
-          UserData user = snapshot.data;
-          return ListView.builder(
-                itemCount: students.length,
+          return snapshot.hasData ? ListView.builder(
+                itemCount: snapshot.data.documents.length,
 itemBuilder: (context,index)
 {
             return  Row(
                 children: <Widget>[
                   Card(
-                    child: Text(students[index].name),
+                    child: Text(snapshot.data.documents[index].data["pseudo"]),
                   ),
                   Spacer(),
                   
                   GestureDetector(onTap: ()  async {
-                    UserVideoCall otherUser=  await DatabaseFonctions().getWholeUserByName(students[index].name);
+                    UserVideoCall otherUser=  await DatabaseFonctions().getWholeUserByName(snapshot.data.documents[index].data["pseudo"]);
                     Firestore.instance.collection("students").document(user.uid).updateData({'ChattingWith':otherUser.uid});
-                    MessageSender().SendProblem(widget.problem, getChatRoomId(students[index].name,Constants.Name),students[index].name);
-StartChatRoom(students[index].name);
+                    MessageSender().SendProblem(widget.problem, getChatRoomId(snapshot.data.documents[index].data["pseudo"],Constants.Name),snapshot.data.documents[index].data["pseudo"]);
+StartChatRoom(snapshot.data.documents[index].data["pseudo"]);
                   },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -84,7 +87,7 @@ Divider(),
 
 }
 
-                );
+                ):Loading();
         }
       );
 
