@@ -9,7 +9,7 @@ class DatabaseServices{
   final String uid;
   DatabaseServices({this.uid});
   final CollectionReference students = Firestore.instance.collection("students");
-  //avoir la liste des etudients qui ont un niv > sup que lutilisateur
+
   final Query studentsSearch =  Firestore.instance.collection("students").where(selectedModule.selected_module,isGreaterThan:Constants.Module_level);
   Future updateUserData (String pseudo,String email,int algo,int analyse,int algebre,int elect,int mecanq,int poo, String imageUrl,String pushToken,String ChattingWith) async{
     int number;
@@ -62,7 +62,7 @@ class DatabaseServices{
     return students.document(uid).snapshots()
         .map(_userDatafromSnapchat);
   }
-
+//avoir la liste des etudients qui ont un niv > sup que lutilisateur
   GetStudentsProblems(int ModuleLevel)async{
     return Firestore.instance.collection("students").where(selectedModule.selected_module,isGreaterThan:ModuleLevel).snapshots();
   }

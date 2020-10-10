@@ -19,12 +19,6 @@ class settings extends StatefulWidget {
 
 class _settingsState extends State<settings> {
   final DatabaseChatRoom datachatroom =DatabaseChatRoom();
-  int algo=Constants.algo ?? 1;
-  int analyse=Constants.analyse ?? 1;
-  int algebre=Constants.algebre ?? 1;
-  int elect=Constants.elect ?? 1;
-  int mecanq=Constants.mecanq ?? 1;
-  int poo=Constants.poo ?? 1;
   String pseudo;
   String imageUrl;
   File image;
@@ -38,7 +32,12 @@ class _settingsState extends State<settings> {
       builder: (context, snapshot) {
     if (snapshot.hasData) {
       UserData user = snapshot.data;
-
+      int algo=user.algo?? 1;
+      int analyse=user.analyse ?? 1;
+      int algebre=user.algebre ?? 1;
+      int elect=user.elect ?? 1;
+      int mecanq=user.mecanq ?? 1;
+      int poo=user.poo ?? 1;
       return Scaffold(
         backgroundColor: Color(0xffFCFAF1),
         appBar: AppBar(
